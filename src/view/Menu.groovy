@@ -1,4 +1,5 @@
 package view
 
 class Menu {
+
 }

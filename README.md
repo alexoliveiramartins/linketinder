@@ -1,6 +1,6 @@
 # Linketinder
 
-Groovy Application to match employees with companies inspired by the LikedIn and Tinder apps.
+Aplicação em groovy para conectar empresas e pessoas inspirado pelos aplicativos LinkedIn e Tinder
 
 ---
 
