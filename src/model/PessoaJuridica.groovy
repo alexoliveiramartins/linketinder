@@ -1,5 +1,5 @@
 package model
 
-class PessoaJuridica {
-
+class PessoaJuridica extends PessoaBase {
+    String cnpj, pais
 }

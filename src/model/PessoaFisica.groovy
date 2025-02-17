@@ -1,5 +1,6 @@
 package model
 
-class PessoaFisica {
-
+class PessoaFisica extends PessoaBase {
+    String cpf
+    int idade
 }
