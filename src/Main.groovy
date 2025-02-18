@@ -1,5 +1,6 @@
 import model.PessoaFisica
 import model.PessoaJuridica
+import view.Menu
 
 def empresas = [
         new PessoaJuridica(nome: 'Google', email: 'contato@google.com', estado: 'California', descricao: 'Tecnologia e inovação', cep: '94043-1351', cnpj: '12.345.678/0001-90', pais: 'EUA', competencias: ['Python', 'Java', 'Machine Learning']),
@@ -16,3 +17,5 @@ def candidatos = [
         new PessoaFisica(nome: 'Fernanda Souza', email: 'fernanda.souza@email.com', estado: 'Bahia', descricao: 'Gerente de TI', cep: '41012-345', cpf: '321.654.987-22', idade: 40, competencias: ['Gestão de Projetos', 'Scrum', 'Java']),
         new PessoaFisica(nome: 'Lucas Costa', email: 'lucas.costa@email.com', estado: 'Espírito Santo', descricao: 'Arquiteto de Software', cep: '29010-456', cpf: '654.321.987-33', idade: 32, competencias: ['C#', 'Azure', 'Design Patterns'])
 ]
+
+Menu.showMenu(candidatos, empresas)
