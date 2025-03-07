@@ -48,6 +48,12 @@
         <!-- Test Dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
@@ -64,10 +70,18 @@
             <version>${spock.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
         <sourceDirectory>src</sourceDirectory>
+        <testSourceDirectory>test</testSourceDirectory>
         <plugins>
             <!-- Maven Compiler Plugin -->
             <plugin>
@@ -101,6 +115,11 @@
                             <directory>${project.basedir}/src</directory>
                         </source>
                     </sources>
+                    <testSources>
+                        <testSource>
+                            <directory>${project.basedir}/test</directory>
+                        </testSource>
+                    </testSources>
                 </configuration>
             </plugin>
 

@@ -8,6 +8,6 @@ class PessoaFisica extends PessoaBase {
 
     @Override
     String toString() {
-        return "${nome}, ${email}, ${estado}, ${descricao}, ${cep}, ${idade}"
+        return "${nome}, ${cpf}, ${email}, ${estado}, ${descricao}, ${cep}, ${idade}"
     }
 }
