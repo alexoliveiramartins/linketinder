@@ -261,13 +261,13 @@ export const botaoEmpresaViewCallbackListener = (): void => {
     views?.appendChild(canvas);
     candidatosChart();
 
-    candidatos.forEach((element) => {
+    candidatos.forEach((element, index) => {
         let elementDiv: HTMLDivElement = document.createElement('div');
         elementDiv.className = 'candidatosList';
         elementDiv.id = 'candidatosList';
 
         let candidatoNome: HTMLHeadingElement = document.createElement('h3');
-        candidatoNome.textContent = element.nome;
+        candidatoNome.textContent = `Candidato ${index + 1}`; // here I want element.index
         let candidatoCompetencias: HTMLElement = document.createElement('sub');
         candidatoCompetencias.textContent = `${element.competencias.join(', ')}`;
 
