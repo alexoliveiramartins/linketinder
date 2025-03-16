@@ -1,8 +1,15 @@
+#app {
+  width: 300px;
+}
+
 body {
   display: flex;
   justify-self: center;
   max-width: 300px;
+  justify-content: center;
+  align-items: center;
 }
+
 .buttonEnviarCadastroUsuario,
 .buttonEnviarCadastroEmpresa {
   padding: 5px;
@@ -27,30 +34,38 @@ body {
   padding-bottom: 10px;
 }
 
+.candidatosList,
+.empresasList {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  width: 300px;
+  border-radius: 5px;
+}
+
+.candidatosList:hover,
+.empresasList:hover {
+  background-color: antiquewhite;
+}
+
 .views {
   display: flex;
   flex-direction: column;
   gap: 5px;
   padding-top: 10px;
   padding-bottom: 10px;
+  overflow-x: visible;
+  width: 100%;
+  align-items: flex-start;
 }
 
-.candidatosList,
-.empresasList {
-  display: flex;
-  flex-direction: column;
-  max-width: 250px;
-  border-radius: 5px;
+.views canvas {
+  align-self: center;
 }
 
-.candidatosList:hover,
-.empresasList:hover {
-  background-color: aliceblue;
+#chartEmpresas,
+#chartCandidatos {
+  height: 500px;
+  width: 500px;
+  min-width: 500px;
 }
-
-/* .candidatosList,
-.empresasList h5 {
-  white-space: normal;
-  overflow: hidden;
-  text-overflow: ellipsis;
-} */
