@@ -8,6 +8,7 @@ botaoCadastroUsuario.style.marginTop = "10px";
 
 export { botaoCadastroUsuario };
 
+
 const botaoCadastroEmpresa: HTMLButtonElement = document.createElement('button');
 botaoCadastroEmpresa.setAttribute('type', 'submit')
 botaoCadastroEmpresa.setAttribute('id', 'buttonEnviarCadastroEmpresa')

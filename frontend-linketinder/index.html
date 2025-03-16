@@ -8,7 +8,7 @@
   <body>
     <div id="app">
       <h1>Linketinder</h1>
-      <div class="formAndButtons">
+      <div class="formAndButtons" id="formAndButtons">
         <div id="botoes" class="botoes">
           <button id="cadastroUsuario">Cadastro de Usuario</button>
           <button id="cadastroEmpresa">Cadastro de Empresa</button>
@@ -17,7 +17,30 @@
           <!-- Formularios aqui -->
         </form>
       </div>
+      <div class="viewButtons">
+        <button
+          type="button"
+          id="botaoEmpresaView"
+          class="botaoEmpresaView"
+          name="botaoEmpresaView"
+        >
+          Empresa View
+        </button>
+        <button
+          type="button"
+          id="botaoCandidatoView"
+          class="botaoCandidatoView"
+          name="botaoCandidatoView"
+        >
+          Candidato View
+        </button>
+      </div>
+      <div class="views" id="views">
+        <canvas id="myChart" style="width: 100%; max-width: 700px"></canvas>
+        <!-- Views de Empresa Candidato-->
+      </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

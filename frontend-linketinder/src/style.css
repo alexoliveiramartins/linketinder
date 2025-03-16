@@ -1,6 +1,7 @@
 body {
   display: flex;
   justify-self: center;
+  max-width: 300px;
 }
 .buttonEnviarCadastroUsuario,
 .buttonEnviarCadastroEmpresa {
@@ -17,3 +18,39 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.viewButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.views {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.candidatosList,
+.empresasList {
+  display: flex;
+  flex-direction: column;
+  max-width: 250px;
+  border-radius: 5px;
+}
+
+.candidatosList:hover,
+.empresasList:hover {
+  background-color: aliceblue;
+}
+
+/* .candidatosList,
+.empresasList h5 {
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+} */

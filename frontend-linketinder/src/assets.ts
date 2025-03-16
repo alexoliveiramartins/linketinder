@@ -1,5 +1,11 @@
 import { Usuario, Empresa } from "./classes";
 
+
+function cleanForms(): void {
+    let forms: HTMLElement | null = document.getElementById("forms")
+    if (forms) forms.innerHTML = ''
+}
+
 let empresas: Empresa[] = [
     {
         nome: 'Google',
@@ -184,3 +190,44 @@ export function pushUsuarioForm(data: FormData): void {
     candidatos.push(candidato);
     console.log(candidatos)
 }
+
+export const botaoEmpresaViewCallbackListener = (): void => {
+    cleanForms()
+    console.log("Empresa View")
+    let views: HTMLElement | null = document.getElementById("views")
+    if (views) views.innerHTML = ''
+    let elementDiv: HTMLDivElement = document.createElement('div');
+    elementDiv.className = 'candidatosList';
+    elementDiv.id = 'candidatosList';
+    views?.appendChild(elementDiv)
+
+    candidatos.forEach((element) => {
+        let candidatoNome: HTMLHeadingElement = document.createElement('h3')
+        candidatoNome.textContent = element.nome;
+        let candidatoCompetencias: HTMLElement = document.createElement('sub')
+        candidatoCompetencias.textContent = `${element.competencias.join(', ')}`;
+        views?.appendChild(candidatoNome)
+        views?.appendChild(candidatoCompetencias)
+    })
+}
+
+export const botaoCandidatoViewCallbackListener = (): void => {
+    cleanForms()
+    console.log("Candidato View")
+    let views: HTMLElement | null = document.getElementById("views")
+    if (views) views.innerHTML = ''
+    let elementDiv: HTMLDivElement = document.createElement('div');
+    elementDiv.className = 'empresasList';
+    elementDiv.id = 'empresasList';
+    views?.appendChild(elementDiv)
+
+    empresas.forEach((element) => {
+        let empresaNome: HTMLHeadingElement = document.createElement('h3')
+        empresaNome.textContent = element.nome;
+        let empresaCompetencias: HTMLElement = document.createElement('sub')
+        empresaCompetencias.textContent = `${element.competencias.join(', ')}`;
+        views?.appendChild(empresaNome)
+        views?.appendChild(empresaCompetencias)
+    })
+}
+

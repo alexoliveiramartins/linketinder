@@ -1,53 +1,77 @@
 import './style.css'
-import { Empresa, Usuario } from './classes'
+// import { Empresa, Usuario } from './classes'
 import { botaoCadastroEmpresa, botaoCadastroUsuario } from './componentes';
 import {
-  empresas, candidatos,
   formularioCadastroEmpresa, formularioCadastroUsuario,
   pushEmpresaForm,
-  pushUsuarioForm
+  pushUsuarioForm,
+  botaoEmpresaViewCallbackListener,
+  botaoCandidatoViewCallbackListener
 } from './assets';
+// import Chart from 'chart.js/auto';
 
 
-document.getElementById("forms")?.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const formData = new FormData(e.currentTarget as HTMLFormElement);
-  const clickedButton = e.submitter as HTMLButtonElement;
+// consertar: 
+// 1. Nao permitir formularios em branco
 
-  if (clickedButton.name === 'usuarioButton') {
-    pushUsuarioForm(formData);
-  } else if (clickedButton.name === 'empresaButton') {
-    pushEmpresaForm(formData);
-  }
+function cleanViewsLists(): void {
+  let views: HTMLElement | null = document.getElementById("views")
+  if (views) views.innerHTML = ''
 }
-);
 
-document.getElementById("cadastroUsuario")
-  ?.addEventListener("click", (): void => {
-    let forms = document.getElementById('forms');
+document.addEventListener("DOMContentLoaded", () => {
 
-    if (forms) {
-      forms.innerHTML = ''
-      formularioCadastroUsuario.forEach(element => {
-        element.input.value = '';
-        forms.appendChild(element.inputLabel);
-        forms.appendChild(element.input);
-      });
+  document.getElementById("forms")?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    const clickedButton = e.submitter as HTMLButtonElement;
+
+    if (clickedButton.name === 'usuarioButton') {
+      pushUsuarioForm(formData);
+    } else if (clickedButton.name === 'empresaButton') {
+      pushEmpresaForm(formData);
     }
-    forms?.appendChild(botaoCadastroUsuario);
-  });
+  }
+  );
 
-document.getElementById("cadastroEmpresa")
-  ?.addEventListener("click", (): void => {
-    let forms = document.getElementById('forms');
+  document.getElementById("cadastroUsuario")
+    ?.addEventListener("click", (): void => {
+      cleanViewsLists()
+      let forms = document.getElementById('forms');
 
-    if (forms) {
-      forms.innerHTML = ''
-      formularioCadastroEmpresa.forEach(element => {
-        element.input.value = '';
-        forms.appendChild(element.inputLabel);
-        forms.appendChild(element.input);
-      });
-    }
-    forms?.appendChild(botaoCadastroEmpresa);
-  });
+      if (forms) {
+        forms.innerHTML = ''
+        formularioCadastroUsuario.forEach(element => {
+          element.input.value = '';
+          forms.appendChild(element.inputLabel);
+          forms.appendChild(element.input);
+        });
+      }
+      forms?.appendChild(botaoCadastroUsuario);
+    });
+
+  document.getElementById("cadastroEmpresa")
+    ?.addEventListener("click", (): void => {
+      cleanViewsLists()
+      let forms = document.getElementById('forms');
+
+      if (forms) {
+        forms.innerHTML = ''
+        formularioCadastroEmpresa.forEach(element => {
+          element.input.value = '';
+          forms.appendChild(element.inputLabel);
+          forms.appendChild(element.input);
+        });
+      }
+      forms?.appendChild(botaoCadastroEmpresa);
+    });
+
+
+  // botoes de view
+  document.getElementById("botaoEmpresaView")?.addEventListener('click', botaoEmpresaViewCallbackListener)
+  document.getElementById("botaoCandidatoView")?.addEventListener('click', botaoCandidatoViewCallbackListener)
+
+
+
+
+});
