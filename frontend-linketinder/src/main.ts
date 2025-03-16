@@ -11,7 +11,6 @@ import {
 
 // consertar:
 // 1. Nao permitir formularios em branco
-// 2. Limpar formularios dps de cadastrar
 
 function cleanViewsLists(): void {
   let views: HTMLElement | null = document.getElementById('views');
@@ -31,7 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  document.getElementById('cadastroUsuario')
+  document
+    .getElementById('cadastroUsuario')
     ?.addEventListener('click', (): void => {
       cleanViewsLists();
       let forms = document.getElementById('forms');
@@ -47,7 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
       forms?.appendChild(botaoCadastroUsuario);
     });
 
-  document.getElementById('cadastroEmpresa')
+  document
+    .getElementById('cadastroEmpresa')
     ?.addEventListener('click', (): void => {
       cleanViewsLists();
       let forms = document.getElementById('forms');
