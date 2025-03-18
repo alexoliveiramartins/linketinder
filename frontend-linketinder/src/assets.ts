@@ -192,32 +192,32 @@ const formularioCadastroUsuario: {
   inputLabel: HTMLLabelElement;
   input: HTMLInputElement;
 }[] = [
-  createElement('nome', 'Nome'),
-  createElement('email', 'Email'),
-  createElement('estado', 'Estado'),
-  createElement('descricao', 'Descricao'),
-  createElement('cpf', 'CPF'),
-  createElement('cep', 'CEP'),
-  createElement('idade', 'Idade'),
-  createElement('competencias', 'Competencias', 'comp1, comp2, ..., compN'),
-  // nao tem nenhum verificador entao use
-  // "competencia1, competencia2, ..., competenciaN" >:)
-];
+    createElement('nome', 'Nome'),
+    createElement('email', 'Email'),
+    createElement('estado', 'Estado'),
+    createElement('descricao', 'Descricao'),
+    createElement('cpf', 'CPF'),
+    createElement('cep', 'CEP'),
+    createElement('idade', 'Idade'),
+    createElement('competencias', 'Competencias', 'comp1, comp2, ..., compN'),
+    // nao tem nenhum verificador (por enquanto) entao use
+    // "competencia1, competencia2, ..., competenciaN" >:)
+  ];
 
 const formularioCadastroEmpresa: {
   inputLabel: HTMLLabelElement;
   input: HTMLInputElement;
 }[] = [
-  createElement('nome', 'Nome'),
-  createElement('email', 'Email'),
-  createElement('estado', 'Estado'),
-  createElement('descricao', 'Descricao'),
-  createElement('pais', 'Pais'),
-  createElement('cnpj', 'CNPJ'),
-  createElement('competencias', 'Competencias', 'comp1, comp2, ..., compN'),
-  // nao tem nenhum verificador entao use
-  // "competencia1, competencia2, ..., competenciaN" >:)
-];
+    createElement('nome', 'Nome'),
+    createElement('email', 'Email'),
+    createElement('estado', 'Estado'),
+    createElement('descricao', 'Descricao'),
+    createElement('pais', 'Pais'),
+    createElement('cnpj', 'CNPJ'),
+    createElement('competencias', 'Competencias', 'comp1, comp2, ..., compN'),
+    // nao tem nenhum verificador (por enquanto) entao use
+    // "competencia1, competencia2, ..., competenciaN" >:)
+  ];
 
 export { formularioCadastroEmpresa, formularioCadastroUsuario };
 
