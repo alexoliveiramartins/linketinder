@@ -14,7 +14,7 @@ CREATE TABLE "candidatos"
 CREATE TABLE "enderecos_candidatos"
 (
     "id"         SERIAL PRIMARY KEY,
-    "id_usuario" int          NOT NULL,
+    "id_candidato" int          NOT NULL,
     "cidade"     varchar(100) NOT NULL,
     "estado"     varchar(100) NOT NULL,
     "pais"       varchar(100) NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE "empresas"
 CREATE TABLE "enderecos_empresas"
 (
     "id"         SERIAL PRIMARY KEY,
-    "id_usuario" int          NOT NULL,
+    "id_empresa" int          NOT NULL,
     "cidade"     varchar(100) NOT NULL,
     "estado"     varchar(100) NOT NULL,
     "pais"       varchar(100) NOT NULL,
