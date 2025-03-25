@@ -27,3 +27,19 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+# Gradle build output
+/build/
+/target/
+
+# Gradle Wrapper logs
+/gradle/wrapper/gradle-wrapper.log
+
+# IDE files (IntelliJ IDEA, Eclipse, etc.)
+.idea/
+*.iml
+*.ipr
+*.iws
+
+*.class
+/.idea/
