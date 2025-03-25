@@ -80,6 +80,11 @@ Your application should now be running locally at:
 
 ## Project Structure
 
+### Database
+
+![BD_MODELAGEM](https://github.com/user-attachments/assets/a536b519-440a-4d30-9b9b-43a2e4a5ae27)
+
+> made with [dbdiagram](dbidiagram.io)
 
 ---
 
