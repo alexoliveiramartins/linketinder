@@ -15,8 +15,9 @@ dependencies {
     implementation libs.org.apache.groovy.groovy.json
     implementation libs.org.apache.groovy.groovy.xml
     implementation libs.org.apache.groovy.groovy.templates
-
+    implementation('org.postgresql:postgresql:42.7.2')
     implementation libs.org.postgresql.postgresql
+    implementation 'org.apache.groovy:groovy-sql:4.0.21'
 
     testImplementation libs.org.junit.jupiter.junit.jupiter
     testImplementation libs.org.junit.jupiter.junit.jupiter.api
