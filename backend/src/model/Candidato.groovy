@@ -5,6 +5,6 @@ class Candidato extends PessoaBase {
 
     @Override
     String toString() {
-        return "${nome}, ${cpf}, ${email}, ${descricao}, ${linkedinLink}, ${dataNascimento}, ${cidade}, ${estado}, ${pais}, ${cep}"
+        return "${nome}, ${cpf}, ${email}, ${descricao}, ${linkedinLink}, ${dataNascimento}, ${cidade}, ${estado}, ${pais}, ${cep}, ${senha}"
     }
 }

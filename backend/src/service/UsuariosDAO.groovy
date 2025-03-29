@@ -52,7 +52,7 @@ class UsuariosDAO {
 
     void updateEnderecoEmpresa(String campo, String novo, int idEmpresa){
         sql = Sql.newInstance(dbConnParams)
-        sql.execute("UPDATE enderecos_empresas SET ${campo} = ? WHERE id_empresa = ?;",[novo, idEmpresa]);
+        sql.execute("UPDATE enderecos_empresas SET ${campo} = ? WHERE id_empresa = ?;",[novo, idEmpresa])
         sql.close()
     }
 
@@ -82,7 +82,7 @@ class UsuariosDAO {
 
     void listCandidatos(){
         sql = Sql.newInstance(dbConnParams)
-        println "Empresas:"
+        println "Candidatos:"
         sql.eachRow("""
                         SELECT c.id, c.nome, c.cpf, c.email, c.descricao, c.data_nascimento, c.linkedin_link, c.senha,
                         en.cidade, en.estado, en.pais, en.cep
@@ -101,9 +101,9 @@ class UsuariosDAO {
         sql.close()
     }
 
-    void updateEnderecoCandidato(String campo, String novo, int idEmpresa){
+    void updateEnderecoCandidato(String campo, String novo, int idCandidato){
         sql = Sql.newInstance(dbConnParams)
-        sql.execute("UPDATE enderecos_candidatos SET ${campo} = ? WHERE id_candidato = ?;",[novo, idEmpresa]);
+        sql.execute("UPDATE enderecos_candidatos SET ${campo} = ? WHERE id_candidato = ?;",[novo, idCandidato])
         sql.close()
     }
 
@@ -115,12 +115,11 @@ class UsuariosDAO {
     }
 
     // CRUD Vaga
-    void addVaga(Empresa empresa, String tituloVaga, String descricaoVaga) {
-        println "Email: ${empresa.email}"
+    void addVaga(int id_empresa, String tituloVaga, String descricaoVaga) {
         sql = Sql.newInstance(dbConnParams)
         sql.execute(
-                "INSERT INTO vagas (id_empresa, titulo, descricao) VALUES((SELECT id FROM empresas WHERE email = ?), ?, ?);",
-                [empresa.email, tituloVaga, descricaoVaga]
+                "INSERT INTO vagas (id_empresa, titulo, descricao) VALUES(?, ?, ?);",
+                [id_empresa, tituloVaga, descricaoVaga]
         )
         sql.close()
     }
@@ -179,6 +178,21 @@ class UsuariosDAO {
         sql.close()
     }
 
+    void addCompetenciaCandidato(String nome, int id_candidato){
+        sql = Sql.newInstance(dbConnParams)
+        if(!competenciaExists(nome)) {
+            sql.execute(
+                    "INSERT INTO competencias(nome) VALUES (?);",
+                    [nome]
+            )
+        }
+        sql.execute(
+                "INSERT INTO candidato_competencia(id_candidato, id_competencia) VALUES (?, (SELECT id FROM competencias WHERE nome = ?));",
+                [id_candidato, nome]
+        )
+        sql.close()
+    }
+
     void listCompetencias(){
         sql = Sql.newInstance(dbConnParams)
         sql.eachRow("""SELECT v.titulo AS vaga,
@@ -192,22 +206,18 @@ class UsuariosDAO {
         sql.close()
     }
 
-    void updateCompetencia(String nomeAntigo, String nomeSet){
+    void updateCompetencia(int idCompetencia, String nomeSet){
         sql = Sql.newInstance(dbConnParams)
-        sql.execute("UPDATE competencias SET nome = ? WHERE nome = ?;", [nomeSet, nomeAntigo])
+        sql.execute("UPDATE competencias SET nome = ? WHERE id = ?;", [nomeSet, idCompetencia])
         sql.close()
     }
 
-    void deleteCompetencia(String nome){
+    void deleteCompetencia(int idCompetencia){
         sql = Sql.newInstance(dbConnParams)
 
-        sql.execute('''
-        DELETE FROM vaga_competencia
-        WHERE vaga_competencia.id_competencia = (SELECT id FROM competencias WHERE nome = ?);
-        ''', [nome])
-        sql.execute('''
-        DELETE FROM competencias WHERE nome = ?;
-        ''', [nome])
+        sql.execute("DELETE FROM vaga_competencia WHERE id_competencia = ?;", [idCompetencia])
+        sql.execute("DELETE FROM candidato_competencia WHERE id_competencia = ?;", [idCompetencia])
+        sql.execute("DELETE FROM competencias WHERE id = ?;", [idCompetencia])
         sql.close()
     }
 

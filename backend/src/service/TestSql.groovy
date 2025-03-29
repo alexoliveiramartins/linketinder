@@ -74,6 +74,8 @@ UsuariosDAO dao = new UsuariosDAO()
 //println "Adicionando competencia..."
 //dao.listCompetencias()
 
+dao.addCompetenciaCandidato('Groovy', 1)
+
 // teste DELETE competencia
 //dao.listCompetencias()
 //dao.deleteCompetencia('AWS')
