@@ -12,10 +12,22 @@ class Menu {
         while(true){
             println "==== Menu ===="
             println "Escolha uma opcao: "
-            println "[1] Listar Usuários"
+            println "[1] Listar Candidatos"
+            println "[4] Remover Candidato"
+            println "[4] Atualizar Candidato"
+
             println "[2] Listar Empresas"
             println "[3] Adicionar Empresa"
-            println "[4] Adicionar Pessoa"
+            println "[4] Remover Empresa"
+
+            println "[5] Adicionar Vaga"
+            println "[5] Editar Vaga"
+            println "[5] Deletar Vaga"
+
+            println "[4] Adicionar Competencia"
+            println "[4] Editar Competencia"
+            println "[4] Remover Competencia"
+
             println "[5] Sair"
             print "> "
 

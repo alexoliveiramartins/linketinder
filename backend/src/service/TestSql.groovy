@@ -16,6 +16,15 @@ UsuariosDAO dao = new UsuariosDAO()
 //dao.listCandidatos()
 
 
+// teste UDPDATE candidatos
+//dao.listCandidatos()
+//dao.updateCandidato('cpf', '07103367769',1)
+//dao.listCandidatos()
+
+// teste UPDATE enderecos_candidatos
+//dao.listCandidatos()
+//dao.updateEnderecoCandidato('cep', '66666-999', 4)
+//dao.listCandidatos()
 
 // teste CREATE vaga
 //dao.listVagas()
@@ -25,6 +34,11 @@ UsuariosDAO dao = new UsuariosDAO()
 // teste DELETE vaga
 //dao.listVagas()
 //dao.deleteVaga(12)
+//dao.listVagas()
+
+// teste UPDATE vaga
+//dao.listVagas()
+//dao.updateVaga('titulo', 'Coordenador de Logistica', 9)
 //dao.listVagas()
 
 
@@ -38,6 +52,17 @@ UsuariosDAO dao = new UsuariosDAO()
 //dao.listEmpresas()
 //dao.deleteEmpresa(6)
 //dao.listEmpresas()
+
+// teste UPDATE empresa
+//dao.listEmpresas()
+//dao.updateEmpresa('linkedin_link', 'https://www.linkedin.com/in/amazon/', 5)
+//dao.listEmpresas()
+
+// teste UPDATE enderecos_empresas
+//dao.listEmpresas()
+//dao.updateEnderecoEmpresa('cidade', 'Gyn city', 8)
+//dao.listEmpresas()
+
 
 
 // teste CREATE competencia
@@ -55,3 +80,8 @@ UsuariosDAO dao = new UsuariosDAO()
 //println "Deletando competencia"
 //dao.listCompetencias()
 
+// teste UPDATE competencia
+//dao.listCompetencias()
+//dao.updateCompetencia("Java", "Java SpringBoot")
+//println "Mudando competencia..."
+//dao.listCompetencias()

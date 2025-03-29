@@ -32,9 +32,27 @@ class UsuariosDAO {
     void listEmpresas() {
         sql = Sql.newInstance(dbConnParams)
         println "Empresas:"
-        sql.eachRow("SELECT * FROM empresas") { row ->
+        sql.eachRow("""
+                        SELECT e.id, e.nome, e.cnpj, e.email, e.descricao, e.linkedin_link, e.senha,
+                        en.cidade, en.estado, en.pais, en.cep
+                        FROM empresas as e INNER JOIN enderecos_empresas as en ON en.id_empresa = e.id;
+                        """) { row ->
             println row
         }
+        sql.close()
+    }
+
+    void updateEmpresa(String campo, String novo, int idEmpresa){
+        sql = Sql.newInstance(dbConnParams)
+        sql.execute("""
+            UPDATE empresas SET ${campo} = ? WHERE id = ?;
+        """, [novo, idEmpresa])
+        sql.close()
+    }
+
+    void updateEnderecoEmpresa(String campo, String novo, int idEmpresa){
+        sql = Sql.newInstance(dbConnParams)
+        sql.execute("UPDATE enderecos_empresas SET ${campo} = ? WHERE id_empresa = ?;",[novo, idEmpresa]);
         sql.close()
     }
 
@@ -64,10 +82,28 @@ class UsuariosDAO {
 
     void listCandidatos(){
         sql = Sql.newInstance(dbConnParams)
-        println "Candidatos:"
-        sql.eachRow("SELECT * FROM candidatos") { row ->
+        println "Empresas:"
+        sql.eachRow("""
+                        SELECT c.id, c.nome, c.cpf, c.email, c.descricao, c.data_nascimento, c.linkedin_link, c.senha,
+                        en.cidade, en.estado, en.pais, en.cep
+                        FROM candidatos as c INNER JOIN enderecos_candidatos as en ON en.id_candidato = c.id;
+                        """) { row ->
             println row
         }
+        sql.close()
+    }
+
+    void updateCandidato(String campo, String novo, int idCandidato){
+        sql = Sql.newInstance(dbConnParams)
+        sql.execute("""
+            UPDATE candidatos SET ${campo} = ? WHERE id = ?;
+        """, [novo, idCandidato])
+        sql.close()
+    }
+
+    void updateEnderecoCandidato(String campo, String novo, int idEmpresa){
+        sql = Sql.newInstance(dbConnParams)
+        sql.execute("UPDATE enderecos_candidatos SET ${campo} = ? WHERE id_candidato = ?;",[novo, idEmpresa]);
         sql.close()
     }
 
@@ -89,7 +125,7 @@ class UsuariosDAO {
         sql.close()
     }
 
-    void listVagas(){
+    void listVagasEmpresas(){
         sql = Sql.newInstance(dbConnParams)
         println "Vagas:"
         sql.eachRow("""
@@ -98,6 +134,24 @@ class UsuariosDAO {
         """) {
             row -> println row
         }
+    }
+
+    void listVagas(){
+        sql = Sql.newInstance(dbConnParams)
+        println "Vagas:"
+        sql.eachRow("""
+            SELECT * FROM vagas;
+        """) {
+            row -> println row
+        }
+    }
+
+    void updateVaga(String campo, String novo, int idVaga){
+        sql = Sql.newInstance(dbConnParams)
+        sql.execute("""
+            UPDATE vagas SET ${campo} = ? WHERE id = ?;
+        """, [novo, idVaga])
+        sql.close()
     }
 
     void deleteVaga(int id){
@@ -124,6 +178,7 @@ class UsuariosDAO {
         )
         sql.close()
     }
+
     void listCompetencias(){
         sql = Sql.newInstance(dbConnParams)
         sql.eachRow("""SELECT v.titulo AS vaga,
@@ -137,13 +192,12 @@ class UsuariosDAO {
         sql.close()
     }
 
-    boolean competenciaExists(String nome){
+    void updateCompetencia(String nomeAntigo, String nomeSet){
         sql = Sql.newInstance(dbConnParams)
-        def result = sql.firstRow("SELECT COUNT(*) FROM competencias WHERE nome = ?;", [nome])
-//        sql.close();
-
-        return result && result.count > 0
+        sql.execute("UPDATE competencias SET nome = ? WHERE nome = ?;", [nomeSet, nomeAntigo])
+        sql.close()
     }
+
     void deleteCompetencia(String nome){
         sql = Sql.newInstance(dbConnParams)
 
@@ -156,4 +210,11 @@ class UsuariosDAO {
         ''', [nome])
         sql.close()
     }
+
+    boolean competenciaExists(String nome){
+        sql = Sql.newInstance(dbConnParams)
+        def result = sql.firstRow("SELECT COUNT(*) FROM competencias WHERE nome = ?;", [nome])
+        return result && result.count > 0
+    }
+
 }
