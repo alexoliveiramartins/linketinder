@@ -15,6 +15,7 @@ class UsuariosDAO {
     ]
     private sql
 
+    // CRUD Empresa
     void addEmpresa(Empresa empresa) {
         sql = Sql.newInstance(dbConnParams)
         sql.execute(
@@ -28,6 +29,23 @@ class UsuariosDAO {
         sql.close()
     }
 
+    void listEmpresas() {
+        sql = Sql.newInstance(dbConnParams)
+        println "Empresas:"
+        sql.eachRow("SELECT * FROM empresas") { row ->
+            println row
+        }
+        sql.close()
+    }
+
+    void deleteEmpresa(int id){
+        sql = Sql.newInstance(dbConnParams)
+        sql.execute("DELETE FROM enderecos_empresas WHERE id_empresa = ?;", [id])
+        sql.execute("DELETE FROM empresas WHERE id = ?;", [id])
+        sql.close()
+    }
+
+    // CRUD Candidato
     void addCandidato(Candidato candidato) {
         sql = Sql.newInstance(dbConnParams)
         def sdf = new SimpleDateFormat("dd-MM-yyyy")
@@ -44,6 +62,23 @@ class UsuariosDAO {
         sql.close()
     }
 
+    void listCandidatos(){
+        sql = Sql.newInstance(dbConnParams)
+        println "Candidatos:"
+        sql.eachRow("SELECT * FROM candidatos") { row ->
+            println row
+        }
+        sql.close()
+    }
+
+    void deleteCandidato(int id){
+        sql = Sql.newInstance(dbConnParams)
+        sql.execute("DELETE FROM enderecos_candidatos WHERE id_candidato = ?;", [id])
+        sql.execute("DELETE FROM candidatos WHERE id = ?;", [id])
+        sql.close()
+    }
+
+    // CRUD Vaga
     void addVaga(Empresa empresa, String tituloVaga, String descricaoVaga) {
         println "Email: ${empresa.email}"
         sql = Sql.newInstance(dbConnParams)
@@ -52,24 +87,6 @@ class UsuariosDAO {
                 [empresa.email, tituloVaga, descricaoVaga]
         )
         sql.close()
-    }
-
-    // listagem
-
-    void listCandidatos(){
-        sql = Sql.newInstance(dbConnParams)
-        println "Candidatos:"
-        sql.eachRow("SELECT * FROM candidatos") { row ->
-            println row
-        }
-    }
-
-    void listEmpresas() {
-        sql = Sql.newInstance(dbConnParams)
-        println "Empresas:"
-        sql.eachRow("SELECT * FROM empresas") { row ->
-            println row
-        }
     }
 
     void listVagas(){
@@ -81,5 +98,62 @@ class UsuariosDAO {
         """) {
             row -> println row
         }
+    }
+
+    void deleteVaga(int id){
+        sql = Sql.newInstance(dbConnParams)
+        sql.execute(
+                "DELETE FROM vagas WHERE id = ?;",
+                [id]
+        )
+        sql.close()
+    }
+
+    // CRUD competencia
+    void addCompetenciaVaga(String nome, int id_vaga){
+        sql = Sql.newInstance(dbConnParams)
+        if(!competenciaExists(nome)) {
+            sql.execute(
+                    "INSERT INTO competencias(nome) VALUES (?);",
+                    [nome]
+            )
+        }
+        sql.execute(
+                "INSERT INTO vaga_competencia(id_vaga, id_competencia) VALUES (?, (SELECT id FROM competencias WHERE nome = ?));",
+                [id_vaga, nome]
+        )
+        sql.close()
+    }
+    void listCompetencias(){
+        sql = Sql.newInstance(dbConnParams)
+        sql.eachRow("""SELECT v.titulo AS vaga,
+                        c.nome AS competencia
+                        FROM vagas v
+                        JOIN vaga_competencia vc
+                          ON v.id = vc.id_vaga
+                        JOIN competencias c
+                          ON c.id = vc.id_competencia;""")
+                {row -> println row}
+        sql.close()
+    }
+
+    boolean competenciaExists(String nome){
+        sql = Sql.newInstance(dbConnParams)
+        def result = sql.firstRow("SELECT COUNT(*) FROM competencias WHERE nome = ?;", [nome])
+//        sql.close();
+
+        return result && result.count > 0
+    }
+    void deleteCompetencia(String nome){
+        sql = Sql.newInstance(dbConnParams)
+
+        sql.execute('''
+        DELETE FROM vaga_competencia
+        WHERE vaga_competencia.id_competencia = (SELECT id FROM competencias WHERE nome = ?);
+        ''', [nome])
+        sql.execute('''
+        DELETE FROM competencias WHERE nome = ?;
+        ''', [nome])
+        sql.close()
     }
 }
