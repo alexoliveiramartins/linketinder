@@ -1,7 +1,7 @@
 package service
 
-import model.PessoaFisica
-import model.PessoaJuridica
+import model.Candidato
+import model.Empresa
 import spock.lang.Specification
 
 class PessoasDataTest extends Specification {
@@ -12,7 +12,7 @@ class PessoasDataTest extends Specification {
         def size = data.candidatos.size()
 
         and: "O candidato a ser adicionado"
-        def Sanji = new PessoaFisica(nome: 'Sanji', email: 'all.blue@email.com', estado: 'Baratie', descricao: 'Cozinheiro de Software', cep: '29010-456', cpf: '654.321.987-33', idade: 17, competencias: ['C#', 'Cloud', 'Vim btw'])
+        def Sanji = new Candidato(nome: 'Sanji', email: 'all.blue@email.com', estado: 'Baratie', descricao: 'Cozinheiro de Software', cep: '29010-456', cpf: '654.321.987-33', dataNascimento: '04-03-2005', competencias: ['C#', 'Cloud', 'Vim btw'])
 
         when: "Adiciona candidato Sanji"
         data.addCandidato(Sanji)
@@ -29,7 +29,7 @@ class PessoasDataTest extends Specification {
         def size = data.empresas.size()
 
         and: "O candidato a ser adicionado"
-        def phantomTroupe = new PessoaJuridica(nome: 'Genei Ryodan', email: 'Genei@ryodan.com', estado: 'Washington', descricao: 'Phantom Troupe', cep: '98109-5210', cnpj: '56.789.012/0001-78', pais: 'EUA', competencias: ['AWS', 'E-commerce', 'Cloud Computing'])
+        def phantomTroupe = new Empresa(nome: 'Genei Ryodan', email: 'Genei@ryodan.com', estado: 'Washington', descricao: 'Phantom Troupe', cep: '98109-5210', cnpj: '56.789.012/0001-78', pais: 'EUA', competencias: ['AWS', 'E-commerce', 'Cloud Computing'])
 
         when: "Adiciona candidato Sanji"
         data.addEmpresa(phantomTroupe)

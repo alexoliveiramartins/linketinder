@@ -1,13 +1,13 @@
 package view
 
-import model.PessoaFisica
-import model.PessoaJuridica
+import model.Candidato
+import model.Empresa
 import service.PessoasData
 
 class Menu {
     static void showMenu(PessoasData data){
 
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in)
 
         while(true){
             println "==== Menu ===="
@@ -19,65 +19,65 @@ class Menu {
             println "[5] Sair"
             print "> "
 
-            String input = sc.nextLine();
+            String input = sc.nextLine()
             switch(input){
                 case '1':
                     data.candidatos.each {println it.toString()}
-                    break;
+                    break
                 case '2':
                     data.empresas.each {println it.toString()}
-                    break;
+                    break
                 case '3':
-                    PessoaJuridica empresa = new PessoaJuridica()
+                    Empresa empresa = new Empresa()
                     print "nome: "
-                    input = sc.nextLine();
+                    input = sc.nextLine()
                     empresa.nome = input
                     print "email: "
-                    input = sc.nextLine();
+                    input = sc.nextLine()
                     empresa.email = input
                     print "pais: "
-                    input = sc.nextLine();
+                    input = sc.nextLine()
                     empresa.pais = input
                     print "estado: "
-                    input = sc.nextLine();
+                    input = sc.nextLine()
                     empresa.estado = input
                     print "descricao: "
-                    input = sc.nextLine();
+                    input = sc.nextLine()
                     empresa.descricao = input
                     print "cnpj: "
-                    input = sc.nextLine();
+                    input = sc.nextLine()
                     empresa.cnpj = input
                     data.addEmpresa(empresa)
-                    break;
+                    break
                     return
                 case '4':
-                    PessoaFisica pessoa = new PessoaFisica()
+                    Candidato pessoa = new Candidato()
                     print "nome: "
-                    input = sc.nextLine();
+                    input = sc.nextLine()
                     pessoa.nome = input
                     print "cpf: "
-                    input = sc.nextLine();
+                    input = sc.nextLine()
                     pessoa.cpf = input
                     print "email: "
-                    input = sc.nextLine();
+                    input = sc.nextLine()
                     pessoa.email = input
                     print "estado: "
-                    input = sc.nextLine();
+                    input = sc.nextLine()
                     pessoa.estado = input
                     print "descricao: "
-                    input = sc.nextLine();
+                    input = sc.nextLine()
                     pessoa.descricao = input
                     print "cep: "
-                    input = sc.nextLine();
+                    input = sc.nextLine()
                     pessoa.cep = input
                     print "idade: "
-                    input = sc.nextLine();
+                    input = sc.nextLine()
                     pessoa.idade = input as Integer
                     data.addCandidato(pessoa)
-                    break;
+                    break
                     return
                 default:
-                    break;
+                    break
             }
         }
     }
