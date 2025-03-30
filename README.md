@@ -1,6 +1,6 @@
 # Linketinder
 
-Linketinder is an innovative platform that bridges the gap between companies and job applicants. Designed to streamline the recruitment process, Linketinder enables organizations to post job listings and engage directly with prospective candidates, while job seekers can create detailed profiles, upload resumes, and apply for positions with ease.
+Linketinder is a platform that bridges the gap between companies and job applicants. Designed to streamline the recruitment process, Linketinder enables organizations to post job listings and engage directly with prospective candidates, while job seekers can create detailed profiles, upload resumes, and apply for positions with ease.
 
 ---
 
@@ -14,12 +14,21 @@ Linketinder is a full-stack web application that facilitates meaningful connecti
 
 - **Frontend**: Typescript, CSS, HTML
 - **Backend**: Groovy
+- **Database**: PostgreSQL
+
+---
+
+## Pre-requisites
+
+Java: v11.0.26 or above
+Groovy: v3.0.22 or above
+Gradle: v8.13 or above
+psql (PostgreSQL): v16.8 or above 
 
 ---
 
 ## Features
 
-- **User Registration & Authentication**: Secure signup and login functionalities for both companies and applicants.
 - **Profile Management**: Tailored dashboards for companies and job seekers to manage their profiles and job listings.
 - **Job Posting & Application**: Companies can easily post job vacancies, and candidates can connect with comapanies through the platform.
 
@@ -31,7 +40,7 @@ Follow these steps to set up your local development environment:
 
 ### Prerequisites
 
-Groovy, Node.js, Maven, npm
+Java, Groovy, Node.js, Gradle, npm
 
 ### Installation
 
@@ -47,21 +56,29 @@ cd linketinder
    The project is split into backend and frontend components. Install dependencies for each:
 
    **Backend:**
+   ```bash
+   cd backend/
+   ./gradlew build
+   ```
 
    **Frontend:**
 
    ```bash
-   cd ./frontend
+   cd frontend/
    npm install
    ```
 
 ### Running the Application
 
-1. **Start the Backend Server**
+1. **Start the Backend Application**
 
 ```bash
-git clone https://github.com/alexoliveiramartins/linketinder
-cd linketinder/src
+cd backend/
+gradle run
+```
+or
+```bash
+cd backend/src/
 groovy Main.groovy
 ```
 
@@ -80,6 +97,7 @@ Your application should now be running locally at:
 
 ## Project Structure
 
+
 ### Database
 
 ![BD_MODELAGEM](https://github.com/user-attachments/assets/6a727e3d-c011-4e03-9983-cc85b7c6416a)
@@ -88,10 +106,5 @@ Your application should now be running locally at:
 
 ---
 
-## Usage
-
----
-
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
