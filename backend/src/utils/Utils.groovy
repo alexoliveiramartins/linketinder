@@ -4,13 +4,13 @@ class Utils {
 
     private static final Scanner sc = new Scanner(System.in)
 
-    static int readInt(){
+    static int readInt() {
         def input = sc.nextInt()
         sc.nextLine()
         return input
     }
 
-    static String readLine(){
+    static String readLine() {
         return sc.nextLine()
     }
 

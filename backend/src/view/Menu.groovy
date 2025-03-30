@@ -4,14 +4,13 @@ import model.Candidato
 import model.Empresa
 import service.PessoasData
 import service.UsuariosDAO
-import utils.*
+import utils.Utils
 
 class Menu {
-    static void showMenu(PessoasData data){
-
+    static void showMenu(PessoasData data) {
         UsuariosDAO usuariosDAO = new UsuariosDAO()
 
-        while(true){
+        while (true) {
             println "==== Menu ===="
             println "Escolha uma opcao: "
             println "[1] Listar Candidatos"
@@ -38,7 +37,7 @@ class Menu {
             print "> "
 
             def input = Utils.readInt()
-            switch(input){
+            switch (input) {
                 case '1': // DONE
                     usuariosDAO.listCandidatos()
                     break
@@ -77,17 +76,17 @@ class Menu {
                     def valor
                     valor = Utils.readLine()
 
-                    if(option == 1) usuariosDAO.updateCandidato('nome', valor, candidatoId)
-                    else if(option == 2) usuariosDAO.updateCandidato('cpf', valor, candidatoId)
-                    else if(option == 3) usuariosDAO.updateCandidato('email', valor, candidatoId)
-                    else if(option == 4) usuariosDAO.updateCandidato('descricao', valor, candidatoId)
-                    else if(option == 5) usuariosDAO.updateCandidato('likedin_link', valor, candidatoId)
-                    else if(option == 6) usuariosDAO.updateCandidato('data_nascimento', valor, candidatoId)
-                    else if(option == 7) usuariosDAO.updateCandidato('senha', valor, candidatoId)
-                    else if(option == 8) usuariosDAO.updateEnderecoCandidato('cidade', valor, candidatoId)
-                    else if(option == 9) usuariosDAO.updateEnderecoCandidato('estado', valor, candidatoId)
-                    else if(option == 10) usuariosDAO.updateEnderecoCandidato('pais', valor, candidatoId)
-                    else if(option == 11) usuariosDAO.updateEnderecoCandidato('cep', valor, candidatoId)
+                    if (option == 1) usuariosDAO.updateCandidato('nome', valor, candidatoId)
+                    else if (option == 2) usuariosDAO.updateCandidato('cpf', valor, candidatoId)
+                    else if (option == 3) usuariosDAO.updateCandidato('email', valor, candidatoId)
+                    else if (option == 4) usuariosDAO.updateCandidato('descricao', valor, candidatoId)
+                    else if (option == 5) usuariosDAO.updateCandidato('likedin_link', valor, candidatoId)
+                    else if (option == 6) usuariosDAO.updateCandidato('data_nascimento', valor, candidatoId)
+                    else if (option == 7) usuariosDAO.updateCandidato('senha', valor, candidatoId)
+                    else if (option == 8) usuariosDAO.updateEnderecoCandidato('cidade', valor, candidatoId)
+                    else if (option == 9) usuariosDAO.updateEnderecoCandidato('estado', valor, candidatoId)
+                    else if (option == 10) usuariosDAO.updateEnderecoCandidato('pais', valor, candidatoId)
+                    else if (option == 11) usuariosDAO.updateEnderecoCandidato('cep', valor, candidatoId)
                     else println "Opcao Invalida"
                     break
                 case '5': // DONE
@@ -128,17 +127,17 @@ class Menu {
                     def valor
                     valor = Utils.readLine()
 
-                    if(option == 1) usuariosDAO.updateEmpresa('nome', valor, empresaId)
-                    else if(option == 2) usuariosDAO.updateEmpresa('cpf', valor, empresaId)
-                    else if(option == 3) usuariosDAO.updateEmpresa('email', valor, empresaId)
-                    else if(option == 4) usuariosDAO.updateEmpresa('descricao', valor, empresaId)
-                    else if(option == 5) usuariosDAO.updateEmpresa('likedin_link', valor, empresaId)
-                    else if(option == 6) usuariosDAO.updateEmpresa('data_nascimento', valor, empresaId)
-                    else if(option == 7) usuariosDAO.updateEmpresa('senha', valor, empresaId)
-                    else if(option == 8) usuariosDAO.updateEnderecoEmpresa('cidade', valor, empresaId)
-                    else if(option == 9) usuariosDAO.updateEnderecoEmpresa('estado', valor, empresaId)
-                    else if(option == 10) usuariosDAO.updateEnderecoEmpresa('pais', valor, empresaId)
-                    else if(option == 11) usuariosDAO.updateEnderecoEmpresa('cep', valor, empresaId)
+                    if (option == 1) usuariosDAO.updateEmpresa('nome', valor, empresaId)
+                    else if (option == 2) usuariosDAO.updateEmpresa('cpf', valor, empresaId)
+                    else if (option == 3) usuariosDAO.updateEmpresa('email', valor, empresaId)
+                    else if (option == 4) usuariosDAO.updateEmpresa('descricao', valor, empresaId)
+                    else if (option == 5) usuariosDAO.updateEmpresa('likedin_link', valor, empresaId)
+                    else if (option == 6) usuariosDAO.updateEmpresa('data_nascimento', valor, empresaId)
+                    else if (option == 7) usuariosDAO.updateEmpresa('senha', valor, empresaId)
+                    else if (option == 8) usuariosDAO.updateEnderecoEmpresa('cidade', valor, empresaId)
+                    else if (option == 9) usuariosDAO.updateEnderecoEmpresa('estado', valor, empresaId)
+                    else if (option == 10) usuariosDAO.updateEnderecoEmpresa('pais', valor, empresaId)
+                    else if (option == 11) usuariosDAO.updateEnderecoEmpresa('cep', valor, empresaId)
                     else println "Opcao Invalida"
                     break
                 case '9':
@@ -171,8 +170,8 @@ class Menu {
                     def valor
                     valor = Utils.readLine()
 
-                    if(option == 1) usuariosDAO.updateVaga('titulo', valor, idVaga)
-                    else if(option == 2) usuariosDAO.updateVaga('descricao', valor, idVaga)
+                    if (option == 1) usuariosDAO.updateVaga('titulo', valor, idVaga)
+                    else if (option == 2) usuariosDAO.updateVaga('descricao', valor, idVaga)
                     else println "Opcao Invalida"
                     break
                 case '12': // DONE
@@ -188,7 +187,7 @@ class Menu {
                     println "Adicionar competencia para: [1] Candidato [2] Vaga"
                     printf "> "
                     def option = Utils.readInt()
-                    if(option == 1){
+                    if (option == 1) {
                         println "Digite o id do candidato"
                         printf "> "
                         def idCandidato = Utils.readInt()
@@ -197,8 +196,7 @@ class Menu {
                         def nomeCompetencia = Utils.readLine()
 
                         usuariosDAO.addCompetenciaCandidato(nomeCompetencia, idCandidato)
-                    }
-                    else if(option == 2){
+                    } else if (option == 2) {
                         println "Digite o id da vaga"
                         printf "> "
                         def idVaga = Utils.readInt()
@@ -207,9 +205,7 @@ class Menu {
                         def nomeCompetencia = Utils.readLine()
 
                         usuariosDAO.addCompetenciaVaga(nomeCompetencia, idVaga)
-                    }
-                    else println "Opcao Invalida"
-
+                    } else println "Opcao Invalida"
                     break
                 case '15': // DONE
                     printf "Digite o id da competencia: "
@@ -223,15 +219,16 @@ class Menu {
                     def idCompetencia = Utils.readInt()
                     usuariosDAO.deleteCompetencia(idCompetencia)
                     break
+                case '17':
+                    return
                 default:
                     println "Opcao Invalida"
                     break
             }
         }
-
     }
 
-    static Candidato candidatoInput(){
+    static Candidato candidatoInput() {
         Scanner sc = new Scanner(System.in)
         Candidato candidato = new Candidato()
         def input
@@ -284,7 +281,7 @@ class Menu {
         return candidato
     }
 
-    static Empresa empresaInput(){
+    static Empresa empresaInput() {
         Scanner sc = new Scanner(System.in)
         def input
         Empresa empresa = new Empresa()

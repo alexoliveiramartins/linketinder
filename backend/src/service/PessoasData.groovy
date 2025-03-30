@@ -20,7 +20,6 @@ class PessoasData {
             new Candidato(nome: 'Kurosaki Ichigo', cpf: '654.321.987-33', email: 'kurosaki.ichigo@email.com', descricao: 'Arquiteto de Software', linkedinLink: 'https://www.linkedin.com/in/kurosakiichigo', dataNascimento: '11/09/2001', cidade: 'Karakura', estado: 'Soul Society', pais: 'Japão', cep: '29010-456', senha: 'Bankai@123')
     ]
 
-
     void addCandidato(Candidato pessoa){
         candidatos.add(pessoa)
     }

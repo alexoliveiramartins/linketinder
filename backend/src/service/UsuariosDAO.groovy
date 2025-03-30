@@ -42,7 +42,7 @@ class UsuariosDAO {
         sql.close()
     }
 
-    void updateEmpresa(String campo, String novo, int idEmpresa){
+    void updateEmpresa(String campo, String novo, int idEmpresa) {
         sql = Sql.newInstance(dbConnParams)
         sql.execute("""
             UPDATE empresas SET ${campo} = ? WHERE id = ?;
@@ -50,13 +50,13 @@ class UsuariosDAO {
         sql.close()
     }
 
-    void updateEnderecoEmpresa(String campo, String novo, int idEmpresa){
+    void updateEnderecoEmpresa(String campo, String novo, int idEmpresa) {
         sql = Sql.newInstance(dbConnParams)
-        sql.execute("UPDATE enderecos_empresas SET ${campo} = ? WHERE id_empresa = ?;",[novo, idEmpresa])
+        sql.execute("UPDATE enderecos_empresas SET ${campo} = ? WHERE id_empresa = ?;", [novo, idEmpresa])
         sql.close()
     }
 
-    void deleteEmpresa(int id){
+    void deleteEmpresa(int id) {
         sql = Sql.newInstance(dbConnParams)
         sql.execute("DELETE FROM enderecos_empresas WHERE id_empresa = ?;", [id])
         sql.execute("DELETE FROM empresas WHERE id = ?;", [id])
@@ -80,7 +80,7 @@ class UsuariosDAO {
         sql.close()
     }
 
-    void listCandidatos(){
+    void listCandidatos() {
         sql = Sql.newInstance(dbConnParams)
         println "Candidatos:"
         sql.eachRow("""
@@ -93,7 +93,7 @@ class UsuariosDAO {
         sql.close()
     }
 
-    void updateCandidato(String campo, String novo, int idCandidato){
+    void updateCandidato(String campo, String novo, int idCandidato) {
         sql = Sql.newInstance(dbConnParams)
         sql.execute("""
             UPDATE candidatos SET ${campo} = ? WHERE id = ?;
@@ -101,13 +101,13 @@ class UsuariosDAO {
         sql.close()
     }
 
-    void updateEnderecoCandidato(String campo, String novo, int idCandidato){
+    void updateEnderecoCandidato(String campo, String novo, int idCandidato) {
         sql = Sql.newInstance(dbConnParams)
-        sql.execute("UPDATE enderecos_candidatos SET ${campo} = ? WHERE id_candidato = ?;",[novo, idCandidato])
+        sql.execute("UPDATE enderecos_candidatos SET ${campo} = ? WHERE id_candidato = ?;", [novo, idCandidato])
         sql.close()
     }
 
-    void deleteCandidato(int id){
+    void deleteCandidato(int id) {
         sql = Sql.newInstance(dbConnParams)
         sql.execute("DELETE FROM enderecos_candidatos WHERE id_candidato = ?;", [id])
         sql.execute("DELETE FROM candidatos WHERE id = ?;", [id])
@@ -124,7 +124,7 @@ class UsuariosDAO {
         sql.close()
     }
 
-    void listVagasEmpresas(){
+    void listVagasEmpresas() {
         sql = Sql.newInstance(dbConnParams)
         println "Vagas:"
         sql.eachRow("""
@@ -135,7 +135,7 @@ class UsuariosDAO {
         }
     }
 
-    void listVagas(){
+    void listVagas() {
         sql = Sql.newInstance(dbConnParams)
         println "Vagas:"
         sql.eachRow("""
@@ -145,7 +145,7 @@ class UsuariosDAO {
         }
     }
 
-    void updateVaga(String campo, String novo, int idVaga){
+    void updateVaga(String campo, String novo, int idVaga) {
         sql = Sql.newInstance(dbConnParams)
         sql.execute("""
             UPDATE vagas SET ${campo} = ? WHERE id = ?;
@@ -153,7 +153,7 @@ class UsuariosDAO {
         sql.close()
     }
 
-    void deleteVaga(int id){
+    void deleteVaga(int id) {
         sql = Sql.newInstance(dbConnParams)
         sql.execute(
                 "DELETE FROM vagas WHERE id = ?;",
@@ -163,9 +163,9 @@ class UsuariosDAO {
     }
 
     // CRUD competencia
-    void addCompetenciaVaga(String nome, int id_vaga){
+    void addCompetenciaVaga(String nome, int id_vaga) {
         sql = Sql.newInstance(dbConnParams)
-        if(!competenciaExists(nome)) {
+        if (!competenciaExists(nome)) {
             sql.execute(
                     "INSERT INTO competencias(nome) VALUES (?);",
                     [nome]
@@ -178,9 +178,9 @@ class UsuariosDAO {
         sql.close()
     }
 
-    void addCompetenciaCandidato(String nome, int id_candidato){
+    void addCompetenciaCandidato(String nome, int id_candidato) {
         sql = Sql.newInstance(dbConnParams)
-        if(!competenciaExists(nome)) {
+        if (!competenciaExists(nome)) {
             sql.execute(
                     "INSERT INTO competencias(nome) VALUES (?);",
                     [nome]
@@ -193,8 +193,9 @@ class UsuariosDAO {
         sql.close()
     }
 
-    void listCompetencias(){
+    void listCompetencias() {
         sql = Sql.newInstance(dbConnParams)
+
         sql.eachRow("""SELECT v.titulo AS vaga,
                         c.nome AS competencia
                         FROM vagas v
@@ -202,26 +203,30 @@ class UsuariosDAO {
                           ON v.id = vc.id_vaga
                         JOIN competencias c
                           ON c.id = vc.id_competencia;""")
-                {row -> println row}
+                { row -> println row }
+
         sql.close()
     }
 
-    void updateCompetencia(int idCompetencia, String nomeSet){
+    void updateCompetencia(int idCompetencia, String nomeSet) {
         sql = Sql.newInstance(dbConnParams)
+
         sql.execute("UPDATE competencias SET nome = ? WHERE id = ?;", [nomeSet, idCompetencia])
+
         sql.close()
     }
 
-    void deleteCompetencia(int idCompetencia){
+    void deleteCompetencia(int idCompetencia) {
         sql = Sql.newInstance(dbConnParams)
 
         sql.execute("DELETE FROM vaga_competencia WHERE id_competencia = ?;", [idCompetencia])
         sql.execute("DELETE FROM candidato_competencia WHERE id_competencia = ?;", [idCompetencia])
         sql.execute("DELETE FROM competencias WHERE id = ?;", [idCompetencia])
+
         sql.close()
     }
 
-    boolean competenciaExists(String nome){
+    boolean competenciaExists(String nome) {
         sql = Sql.newInstance(dbConnParams)
         def result = sql.firstRow("SELECT COUNT(*) FROM competencias WHERE nome = ?;", [nome])
         return result && result.count > 0
