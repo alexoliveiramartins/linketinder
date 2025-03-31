@@ -33,7 +33,9 @@ class Menu {
             println "[15] Editar Competencia"
             println "[16] Remover Competencia"
 
-            println "[17] Sair"
+            println "[17] Adicionar Curtida"
+
+            println "[18] Sair"
             print "> "
 
             def input = Utils.readInt()
@@ -220,6 +222,13 @@ class Menu {
                     usuariosDAO.deleteCompetencia(idCompetencia)
                     break
                 case '17':
+                    printf "Digite o id do usuario: "
+                    def idUsuario = Utils.readInt()
+                    printf "Digite o id da vaga para curtir: "
+                    def idVaga = Utils.readInt()
+                    usuariosDAO.addCurtida(idUsuario, idVaga)
+                    break
+                case '18':
                     return
                 default:
                     println "Opcao Invalida"

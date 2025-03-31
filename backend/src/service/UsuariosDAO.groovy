@@ -15,6 +15,16 @@ class UsuariosDAO {
     ]
     private sql
 
+    // CRUD Curtidas
+
+    void addCurtida(id_candidato, id_vaga){
+        sql = Sql.newInstance(dbConnParams)
+        sql.execute('''INSERT INTO curtidas_candidato(id_candidato, id_vaga, data_curtida)
+                            VALUES(?, ?, CURRENT_DATE);
+                         ''', [id_candidato, id_vaga])
+        sql.close()
+    }
+
     // CRUD Empresa
     void addEmpresa(Empresa empresa) {
         sql = Sql.newInstance(dbConnParams)
@@ -231,5 +241,68 @@ class UsuariosDAO {
         def result = sql.firstRow("SELECT COUNT(*) FROM competencias WHERE nome = ?;", [nome])
         return result && result.count > 0
     }
+
+    ArrayList<Empresa> empresasData() {
+        sql = Sql.newInstance(dbConnParams)
+
+        ArrayList<Empresa> empresasData = new ArrayList<>()
+
+        sql.eachRow("""
+            SELECT e.id, e.nome, e.cnpj, e.email, e.descricao, e.linkedin_link, e.senha,
+            en.cidade, en.estado, en.pais, en.cep
+            FROM empresas as e INNER JOIN enderecos_empresas as en ON en.id_empresa = e.id;
+        """) {
+            row -> {
+                Empresa empresaItem = new Empresa()
+                empresaItem.nome = row.nome
+                empresaItem.email = row.email
+                empresaItem.descricao = row.descricao
+                empresaItem.linkedinLink = row.linkedin_link
+                empresaItem.cnpj = row.cnpj
+                empresaItem.cidade = row.cidade
+                empresaItem.estado = row.estado
+                empresaItem.pais = row.pais
+                empresaItem.cep = row.cep
+                empresaItem.senha = row.senha
+
+                empresasData.push(empresaItem)
+            }
+        }
+        sql.close()
+        return empresasData;
+    }
+
+    ArrayList<Candidato> candidatosData() {
+        sql = Sql.newInstance(dbConnParams)
+
+        ArrayList<Candidato> candidatosData = new ArrayList<>()
+
+        sql.eachRow("""
+            SELECT c.id, c.nome, c.cpf, c.email, c.descricao, c.data_nascimento, c.linkedin_link, c.senha,
+            en.cidade, en.estado, en.pais, en.cep
+            FROM candidatos as c INNER JOIN enderecos_candidatos as en ON en.id_candidato = c.id;
+        """) {
+            row -> {
+                Candidato candidatoItem = new Candidato()
+                candidatoItem.nome = row.nome
+                candidatoItem.cpf = row.cpf
+                candidatoItem.email = row.email
+                candidatoItem.descricao = row.descricao
+                candidatoItem.linkedinLink = row.linkedin_link
+                candidatoItem.dataNascimento = row.data_nascimento
+                candidatoItem.cidade = row.cidade
+                candidatoItem.estado = row.estado
+                candidatoItem.pais = row.pais
+                candidatoItem.cep = row.cep
+                candidatoItem.senha = row.senha
+
+                candidatosData.push(candidatoItem)
+            }
+        }
+        sql.close()
+        return candidatosData
+    }
+
+
 
 }
