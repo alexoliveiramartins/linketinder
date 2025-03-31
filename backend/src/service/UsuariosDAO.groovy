@@ -2,10 +2,12 @@ package service
 
 import groovy.sql.Sql
 import model.Candidato
+import model.CurtidaEmpresa
 import model.Empresa
 import model.Vaga
 
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 
 class UsuariosDAO {
     Map dbConnParams = [
@@ -326,6 +328,51 @@ class UsuariosDAO {
         }
         sql.close()
         return vagasData
+    }
+
+    ArrayList<CurtidaEmpresa> curtidasEmpresasData() {
+        sql = Sql.newInstance(dbConnParams)
+
+
+        ArrayList<CurtidaEmpresa> curtidasEmpresas = new ArrayList<>()
+
+        sql.eachRow("""
+            SELECT * FROM curtidas_empresa;
+        """) {
+            row -> {
+                CurtidaEmpresa curtida = new CurtidaEmpresa()
+                curtida.id = row.id;
+                curtida.id_empresa = row.id_empresa
+                curtida.id_candidato = row.id_candidato
+                curtida.data = (row.data_curtida).toLocalDateTime()
+
+                curtidasEmpresas.push(curtida)
+            }
+        }
+        sql.close()
+        return curtidasEmpresas
+    }
+
+    ArrayList<CurtidaEmpresa> curtidasCandidatosData() {
+        sql = Sql.newInstance(dbConnParams)
+
+        ArrayList<CurtidaEmpresa> curtidasEmpresas = new ArrayList<>()
+
+        sql.eachRow("""
+            SELECT * FROM curtidas_empresa;
+        """) {
+            row -> {
+                CurtidaEmpresa curtida = new CurtidaEmpresa()
+                curtida.id = row.id;
+                curtida.id_empresa = row.id_empresa
+                curtida.id_candidato = row.id_candidato
+                curtida.data = (row.data_curtida).toLocalDateTime()
+
+                curtidasEmpresas.push(curtida)
+            }
+        }
+        sql.close()
+        return curtidasEmpresas
     }
 
 

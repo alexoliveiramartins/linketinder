@@ -3,6 +3,7 @@ package model
 class Candidato extends PessoaBase {
     String cpf, dataNascimento
     ArrayList<Integer> idCurtidasCandidato
+    List<String> competencias
 
     @Override
     String toString() {
