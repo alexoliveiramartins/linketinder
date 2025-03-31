@@ -5,6 +5,6 @@ class Empresa extends PessoaBase {
 
     @Override
     String toString() {
-        return "${nome}, ${email}, ${descricao}, ${linkedinLink}, ${cnpj}, ${cidade}, ${estado}, ${pais}, ${cep}, ${senha}"
+        return "${id}, ${nome}, ${email}, ${descricao}, ${linkedinLink}, ${cnpj}, ${cidade}, ${estado}, ${pais}, ${cep}, ${senha}"
     }
 }

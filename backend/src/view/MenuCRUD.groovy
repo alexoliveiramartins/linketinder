@@ -6,7 +6,7 @@ import service.PessoasData
 import service.UsuariosDAO
 import utils.Utils
 
-class Menu {
+class MenuCRUD {
     static void showMenu(PessoasData data) {
         UsuariosDAO usuariosDAO = new UsuariosDAO()
 

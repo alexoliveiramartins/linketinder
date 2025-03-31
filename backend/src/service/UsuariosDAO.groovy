@@ -3,6 +3,7 @@ package service
 import groovy.sql.Sql
 import model.Candidato
 import model.Empresa
+import model.Vaga
 
 import java.text.SimpleDateFormat
 
@@ -254,6 +255,7 @@ class UsuariosDAO {
         """) {
             row -> {
                 Empresa empresaItem = new Empresa()
+                empresaItem.id = row.id
                 empresaItem.nome = row.nome
                 empresaItem.email = row.email
                 empresaItem.descricao = row.descricao
@@ -284,6 +286,7 @@ class UsuariosDAO {
         """) {
             row -> {
                 Candidato candidatoItem = new Candidato()
+                candidatoItem.id = row.id;
                 candidatoItem.nome = row.nome
                 candidatoItem.cpf = row.cpf
                 candidatoItem.email = row.email
@@ -301,6 +304,28 @@ class UsuariosDAO {
         }
         sql.close()
         return candidatosData
+    }
+
+    ArrayList<Vaga> vagasData() {
+        sql = Sql.newInstance(dbConnParams)
+
+        ArrayList<Vaga> vagasData = new ArrayList<>()
+
+        sql.eachRow("""
+            SELECT * FROM vagas;
+        """) {
+            row -> {
+                Vaga candidatoItem = new Vaga()
+                candidatoItem.id = row.id;
+                candidatoItem.id_empresa = row.id_empresa
+                candidatoItem.titulo = row.titulo
+                candidatoItem.descricao = row.descricao
+
+                vagasData.push(candidatoItem)
+            }
+        }
+        sql.close()
+        return vagasData
     }
 
 
