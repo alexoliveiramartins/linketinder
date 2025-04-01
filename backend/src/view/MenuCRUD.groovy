@@ -33,9 +33,10 @@ class MenuCRUD {
             println "[15] Editar Competencia"
             println "[16] Remover Competencia"
 
-            println "[17] Adicionar Curtida"
+            println "[17] Adicionar Curtida de Empresa"
+            println "[18] Adicionar Curtida de Candidato"
 
-            println "[18] Sair"
+            println "[19] Sair"
             print "> "
 
             def input = Utils.readInt()
@@ -222,13 +223,20 @@ class MenuCRUD {
                     usuariosDAO.deleteCompetencia(idCompetencia)
                     break
                 case '17':
+                    printf "Digite o id da empresa: "
+                    def idEmpresa = Utils.readInt()
+                    printf "Digite o id do usuario para curtir: "
+                    def idUsuario = Utils.readInt()
+                    usuariosDAO.addCurtidaEmpresa(idEmpresa, idUsuario)
+                    break
+                case '18':
                     printf "Digite o id do usuario: "
                     def idUsuario = Utils.readInt()
                     printf "Digite o id da vaga para curtir: "
                     def idVaga = Utils.readInt()
-                    usuariosDAO.addCurtida(idUsuario, idVaga)
+                    usuariosDAO.addCurtidaCandidato(idUsuario, idVaga)
                     break
-                case '18':
+                case '19':
                     return
                 default:
                     println "Opcao Invalida"

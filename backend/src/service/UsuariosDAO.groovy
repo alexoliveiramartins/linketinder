@@ -1,13 +1,18 @@
 package service
 
+import com.sun.tools.javac.util.Pair
 import groovy.sql.Sql
 import model.Candidato
+import model.Competencia
+import model.CompetenciaCandidato
+import model.CompetenciaVaga
+import model.CurtidaCandidato
 import model.CurtidaEmpresa
 import model.Empresa
 import model.Vaga
 
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
+
 
 class UsuariosDAO {
     Map dbConnParams = [
@@ -20,11 +25,19 @@ class UsuariosDAO {
 
     // CRUD Curtidas
 
-    void addCurtida(id_candidato, id_vaga){
+    void addCurtidaCandidato(int id_candidato, int id_vaga){
         sql = Sql.newInstance(dbConnParams)
         sql.execute('''INSERT INTO curtidas_candidato(id_candidato, id_vaga, data_curtida)
                             VALUES(?, ?, CURRENT_DATE);
                          ''', [id_candidato, id_vaga])
+        sql.close()
+    }
+
+    void addCurtidaEmpresa(int id_empresa, int id_candidato){
+        sql = Sql.newInstance(dbConnParams)
+        sql.execute('''INSERT INTO curtidas_empresa(id_empresa, id_candidato, data_curtida)
+                            VALUES(?, ?, CURRENT_DATE);
+                         ''', [id_empresa, id_candidato])
         sql.close()
     }
 
@@ -178,7 +191,9 @@ class UsuariosDAO {
     // CRUD competencia
     void addCompetenciaVaga(String nome, int id_vaga) {
         sql = Sql.newInstance(dbConnParams)
-        if (!competenciaExists(nome)) {
+        def queryCount = sql.firstRow("SELECT Count(*) AS cnt FROM competencias WHERE nome = ?", [nome])
+        int count = queryCount.cnt as int
+        if (count == 0) {
             sql.execute(
                     "INSERT INTO competencias(nome) VALUES (?);",
                     [nome]
@@ -191,9 +206,12 @@ class UsuariosDAO {
         sql.close()
     }
 
+
     void addCompetenciaCandidato(String nome, int id_candidato) {
         sql = Sql.newInstance(dbConnParams)
-        if (!competenciaExists(nome)) {
+        def queryCount = sql.firstRow("SELECT Count(*) AS cnt FROM competencias WHERE nome = ?", [nome])
+        int count = queryCount.cnt as int
+        if (count == 0) {
             sql.execute(
                     "INSERT INTO competencias(nome) VALUES (?);",
                     [nome]
@@ -239,13 +257,41 @@ class UsuariosDAO {
         sql.close()
     }
 
+    void deleteCompetenciaVaga(int id_vaga, int idCompetencia) {
+        sql = Sql.newInstance(dbConnParams)
+        sql.execute("DELETE FROM vaga_competencia WHERE id_competencia = ? AND id_vaga = ?;", [idCompetencia, id_vaga])
+        sql.close()
+    }
+
+    void deleteCompetenciaCandidato(int idCandidato, int idCompetencia) {
+        sql = Sql.newInstance(dbConnParams)
+        sql.execute("DELETE FROM candidato_competencia WHERE id_competencia = ? AND id_candidato = ?;", [idCompetencia, idCandidato])
+        sql.close()
+    }
+
     boolean competenciaExists(String nome) {
         sql = Sql.newInstance(dbConnParams)
         def result = sql.firstRow("SELECT COUNT(*) FROM competencias WHERE nome = ?;", [nome])
         return result && result.count > 0
     }
 
-    ArrayList<Empresa> empresasData() {
+    List<Competencia> competenciaData(){
+        sql = Sql.newInstance(dbConnParams)
+
+        ArrayList<Competencia> competenciaData = new ArrayList<>()
+        sql.eachRow("SELECT * FROM competencias;") {
+            row -> {
+                Competencia competencia = new Competencia()
+                competencia.id = row.id
+                competencia.nome = row.nome
+                competenciaData.push(competencia)
+            }
+        }
+        return competenciaData
+        sql.close()
+    }
+
+    List<Empresa> empresasData() {
         sql = Sql.newInstance(dbConnParams)
 
         ArrayList<Empresa> empresasData = new ArrayList<>()
@@ -273,10 +319,10 @@ class UsuariosDAO {
             }
         }
         sql.close()
-        return empresasData;
+        return empresasData
     }
 
-    ArrayList<Candidato> candidatosData() {
+    List<Candidato> candidatosData() {
         sql = Sql.newInstance(dbConnParams)
 
         ArrayList<Candidato> candidatosData = new ArrayList<>()
@@ -288,7 +334,7 @@ class UsuariosDAO {
         """) {
             row -> {
                 Candidato candidatoItem = new Candidato()
-                candidatoItem.id = row.id;
+                candidatoItem.id = row.id
                 candidatoItem.nome = row.nome
                 candidatoItem.cpf = row.cpf
                 candidatoItem.email = row.email
@@ -308,40 +354,70 @@ class UsuariosDAO {
         return candidatosData
     }
 
-    ArrayList<Vaga> vagasData() {
+    List<CompetenciaCandidato> candidatoCompetenciasData(){
         sql = Sql.newInstance(dbConnParams)
+        ArrayList<CompetenciaCandidato> candidatoCompetenciasData = new ArrayList<>()
+        sql.eachRow("""
+            SELECT c.id, c.nome, cand.id_candidato FROM competencias AS c 
+            JOIN candidato_competencia AS cand ON cand.id_competencia = c.id;
+        """) {
+            row -> {
+                CompetenciaCandidato competenciaCandidato = new CompetenciaCandidato()
+                competenciaCandidato.id_candidato = row.id_candidato
+                competenciaCandidato.id_competencia = row.id
+                candidatoCompetenciasData.push(competenciaCandidato)
+            }
+        }
+        sql.close()
+        return candidatoCompetenciasData
+    }
 
+    List<CompetenciaVaga> vagaCompetenciasData(){
+        sql = Sql.newInstance(dbConnParams)
+        ArrayList<CompetenciaVaga> vagaCompetenciasData = new ArrayList<>()
+        sql.eachRow("""
+            SELECT c.id, c.nome, v.id_vaga FROM competencias AS c 
+            JOIN vaga_competencia AS v ON v.id_competencia = c.id;
+        """) {
+            row -> {
+                CompetenciaVaga competenciaVaga = new CompetenciaVaga()
+                competenciaVaga.id_vaga = row.id_vaga
+                competenciaVaga.id_competencia = row.id
+                vagaCompetenciasData.push(competenciaVaga)
+            }
+        }
+        sql.close()
+        return vagaCompetenciasData
+    }
+
+    List<Vaga> vagasData() {
+        sql = Sql.newInstance(dbConnParams)
         ArrayList<Vaga> vagasData = new ArrayList<>()
-
         sql.eachRow("""
             SELECT * FROM vagas;
         """) {
             row -> {
-                Vaga candidatoItem = new Vaga()
-                candidatoItem.id = row.id;
-                candidatoItem.id_empresa = row.id_empresa
-                candidatoItem.titulo = row.titulo
-                candidatoItem.descricao = row.descricao
+                Vaga vagaItem = new Vaga()
+                vagaItem.id = row.id
+                vagaItem.id_empresa = row.id_empresa
+                vagaItem.titulo = row.titulo
+                vagaItem.descricao = row.descricao
 
-                vagasData.push(candidatoItem)
+                vagasData.push(vagaItem)
             }
         }
         sql.close()
         return vagasData
     }
 
-    ArrayList<CurtidaEmpresa> curtidasEmpresasData() {
+    List<CurtidaEmpresa> curtidasEmpresasData() {
         sql = Sql.newInstance(dbConnParams)
-
-
         ArrayList<CurtidaEmpresa> curtidasEmpresas = new ArrayList<>()
-
         sql.eachRow("""
             SELECT * FROM curtidas_empresa;
         """) {
             row -> {
                 CurtidaEmpresa curtida = new CurtidaEmpresa()
-                curtida.id = row.id;
                 curtida.id_empresa = row.id_empresa
                 curtida.id_candidato = row.id_candidato
                 curtida.data = (row.data_curtida).toLocalDateTime()
@@ -353,28 +429,25 @@ class UsuariosDAO {
         return curtidasEmpresas
     }
 
-    ArrayList<CurtidaEmpresa> curtidasCandidatosData() {
+    List<CurtidaCandidato> curtidasCandidatosData() {
         sql = Sql.newInstance(dbConnParams)
 
-        ArrayList<CurtidaEmpresa> curtidasEmpresas = new ArrayList<>()
+        ArrayList<CurtidaCandidato> curtidasCandidatos = new ArrayList<>()
 
         sql.eachRow("""
-            SELECT * FROM curtidas_empresa;
+            SELECT * FROM curtidas_candidato;
         """) {
             row -> {
-                CurtidaEmpresa curtida = new CurtidaEmpresa()
-                curtida.id = row.id;
-                curtida.id_empresa = row.id_empresa
+                CurtidaCandidato curtida = new CurtidaCandidato()
                 curtida.id_candidato = row.id_candidato
+                curtida.id_vaga = row.id_vaga
                 curtida.data = (row.data_curtida).toLocalDateTime()
 
-                curtidasEmpresas.push(curtida)
+                curtidasCandidatos.push(curtida)
             }
         }
         sql.close()
-        return curtidasEmpresas
+        return curtidasCandidatos
     }
-
-
 
 }

@@ -6,9 +6,8 @@ class CurtidaEmpresa {
     int id, id_empresa, id_candidato
     LocalDateTime data
 
-
     @Override
-    public String toString() {
+    String toString() {
         return "${id}, ${id_empresa}, ${id_candidato}, ${data}"
     }
 }

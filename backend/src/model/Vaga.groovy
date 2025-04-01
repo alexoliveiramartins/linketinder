@@ -3,15 +3,11 @@ package model
 class Vaga {
     int id, id_empresa
     String titulo, descricao
-    ArrayList<Integer> idCurtidasVaga
-    List<String> competencias
-
-    void loadCurtidas(){
-
-    }
+    List<Competencia> competencias = new ArrayList<>()
 
     @Override
-    public String toString() {
-        return "${id}, ${id_empresa}, ${titulo}, ${descricao}"
+    String toString() {
+        return "id: ${id}, id_empresa: ${id_empresa}, ${titulo}, ${descricao} " +
+                "Competencias: $competencias"
     }
 }
