@@ -14,10 +14,9 @@
 
 body {
   display: flex;
-  justify-self: center;
-  max-width: 300px;
   justify-content: center;
   align-items: center;
+  margin: 0;
 }
 
 /* Botao de enviar formularios (empresa e usuario) */
