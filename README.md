@@ -100,7 +100,7 @@ Your application should now be running locally at:
 
 ### Database
 
-![BD_MODELAGEM](https://github.com/user-attachments/assets/6a727e3d-c011-4e03-9983-cc85b7c6416a)
+![BD_MODELAGEM](https://github.com/user-attachments/assets/2f17d9f5-42ba-48f1-aaef-ca4d5e9a1ea0)
 
 > made with [dbdiagram](dbidiagram.io)
 
