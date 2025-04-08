@@ -1,8 +1,15 @@
-import view.MenuAplicacao
+import utils.Utils
+import view.MenuCRUD
 
 // Linketinder - Alex Benjamim de Oliveira Martins (2025)
 
-MenuAplicacao.showMenu()
+println "===MENU===\n[1]Menu Crud"
+printf "> "
+def choice = Utils.readInt()
 
-//PessoasData data = new PessoasData()
-//MenuCRUD.showMenu(data)
+if (choice == 1) {
+    MenuCRUD.showMenu()
+} else {
+    println "Escolha invalida"
+    return
+}

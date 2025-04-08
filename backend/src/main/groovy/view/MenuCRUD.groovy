@@ -2,13 +2,16 @@ package view
 
 import model.Candidato
 import model.Empresa
-import service.PessoasData
-import service.UsuariosDAO
+import service.*
 import utils.Utils
 
 class MenuCRUD {
-    static void showMenu(PessoasData data) {
-        UsuariosDAO usuariosDAO = new UsuariosDAO()
+    static void showMenu() {
+        CandidatosDAO candidatosDAO = new CandidatosDAO()
+        VagasDAO vagasDAO = new VagasDAO()
+        EmpresasDAO empresasDAO = new EmpresasDAO()
+        CurtidasDAO curtidasDAO = new CurtidasDAO()
+        CompetenciasDAO competenciasDAO = new CompetenciasDAO()
 
         while (true) {
             println "==== Menu ===="
@@ -35,29 +38,27 @@ class MenuCRUD {
 
             println "[17] Adicionar Curtida de Empresa"
             println "[18] Adicionar Curtida de Candidato"
+            println "[19] Mostrar Curtidas do Candidato"
+            println "[20] Mostrar Curtidas da Empresa"
 
-            println "[19] Sair"
+            println "[21] Sair"
             print "> "
 
             def input = Utils.readInt()
             switch (input) {
-                case '1': // DONE
-                    usuariosDAO.listCandidatos()
+                case '1':
+                    candidatosDAO.listCandidatos()
                     break
-                case '2': // DONE
+                case '2':
                     Candidato candidatoAdd = candidatoInput()
-                    usuariosDAO.addCandidato(candidatoAdd)
+                    candidatosDAO.addCandidato(candidatoAdd)
                     break
-                case '3': // DONE
-                    print "ID do candidato: "
-                    def choice = Utils.readInt()
-                    usuariosDAO.deleteCandidato(choice)
+                case '3':
+                    def choice = Utils.promptInputInt("ID do candidato")
+                    candidatosDAO.deleteCandidato(choice)
                     break
-                case '4': // DONE
-                    print "ID do Candidato: "
-                    def candidatoId
-                    candidatoId = Utils.readInt()
-
+                case '4':
+                    def candidatoId = Utils.promptInputInt("ID do candidato")
                     println "Selecione uma propriedade para editar: "
                     println "[1] Nome"
                     println "[2] CPF"
@@ -70,44 +71,34 @@ class MenuCRUD {
                     println "[9] Estado"
                     println "[10] Pais"
                     println "[11] Cep"
-                    printf "> "
-                    def option
-                    option = Utils.readInt()
+                    def option = Utils.promptInputInt("Opcao")
+                    def valor = Utils.promptInput("Novo valor")
 
-                    println "Digite o novo valor:"
-                    printf "> "
-                    def valor
-                    valor = Utils.readLine()
-
-                    if (option == 1) usuariosDAO.updateCandidato('nome', valor, candidatoId)
-                    else if (option == 2) usuariosDAO.updateCandidato('cpf', valor, candidatoId)
-                    else if (option == 3) usuariosDAO.updateCandidato('email', valor, candidatoId)
-                    else if (option == 4) usuariosDAO.updateCandidato('descricao', valor, candidatoId)
-                    else if (option == 5) usuariosDAO.updateCandidato('likedin_link', valor, candidatoId)
-                    else if (option == 6) usuariosDAO.updateCandidato('data_nascimento', valor, candidatoId)
-                    else if (option == 7) usuariosDAO.updateCandidato('senha', valor, candidatoId)
-                    else if (option == 8) usuariosDAO.updateEnderecoCandidato('cidade', valor, candidatoId)
-                    else if (option == 9) usuariosDAO.updateEnderecoCandidato('estado', valor, candidatoId)
-                    else if (option == 10) usuariosDAO.updateEnderecoCandidato('pais', valor, candidatoId)
-                    else if (option == 11) usuariosDAO.updateEnderecoCandidato('cep', valor, candidatoId)
+                    if (option == 1) candidatosDAO.updateCandidato('nome', valor, candidatoId)
+                    else if (option == 2) candidatosDAO.updateCandidato('cpf', valor, candidatoId)
+                    else if (option == 3) candidatosDAO.updateCandidato('email', valor, candidatoId)
+                    else if (option == 4) candidatosDAO.updateCandidato('descricao', valor, candidatoId)
+                    else if (option == 5) candidatosDAO.updateCandidato('likedin_link', valor, candidatoId)
+                    else if (option == 6) candidatosDAO.updateCandidato('data_nascimento', valor, candidatoId)
+                    else if (option == 7) candidatosDAO.updateCandidato('senha', valor, candidatoId)
+                    else if (option == 8) candidatosDAO.updateEnderecoCandidato('cidade', valor, candidatoId)
+                    else if (option == 9) candidatosDAO.updateEnderecoCandidato('estado', valor, candidatoId)
+                    else if (option == 10) candidatosDAO.updateEnderecoCandidato('pais', valor, candidatoId)
+                    else if (option == 11) candidatosDAO.updateEnderecoCandidato('cep', valor, candidatoId)
                     else println "Opcao Invalida"
                     break
-                case '5': // DONE
-                    usuariosDAO.listEmpresas()
+                case '5':
+                    empresasDAO.listEmpresas()
                     break
-                case '6': // DONE
-                    usuariosDAO.addEmpresa(empresaInput())
+                case '6':
+                    empresasDAO.addEmpresa(empresaInput())
                     break
-                case '7': // DONE
-                    println "Digite o ID da empresa para deletar: "
-                    printf "> "
-                    def idEmpresa = Utils.readInt()
-                    usuariosDAO.deleteEmpresa(idEmpresa)
+                case '7':
+                    def idEmpresa = Utils.promptInputInt("ID da empresa para deletar")
+                    empresasDAO.deleteEmpresa(idEmpresa)
                     break
-                case '8': // DONE
-                    print "ID da empresa: "
-                    def empresaId
-                    empresaId = Utils.readInt()
+                case '8':
+                    def empresaId = Utils.promptInputInt("ID da empresa para atualizar")
 
                     println "Selecione uma propriedade para editar: "
                     println "[1] Nome"
@@ -121,42 +112,32 @@ class MenuCRUD {
                     println "[9] Estado"
                     println "[10] Pais"
                     println "[11] Cep"
-                    printf "> "
-                    def option
-                    option = Utils.readInt()
+                    def option = Utils.promptInputInt("Opcao")
+                    def valor = Utils.promptInput("Novo valor")
 
-                    println "Digite o novo valor:"
-                    printf "> "
-                    def valor
-                    valor = Utils.readLine()
-
-                    if (option == 1) usuariosDAO.updateEmpresa('nome', valor, empresaId)
-                    else if (option == 2) usuariosDAO.updateEmpresa('cpf', valor, empresaId)
-                    else if (option == 3) usuariosDAO.updateEmpresa('email', valor, empresaId)
-                    else if (option == 4) usuariosDAO.updateEmpresa('descricao', valor, empresaId)
-                    else if (option == 5) usuariosDAO.updateEmpresa('likedin_link', valor, empresaId)
-                    else if (option == 6) usuariosDAO.updateEmpresa('data_nascimento', valor, empresaId)
-                    else if (option == 7) usuariosDAO.updateEmpresa('senha', valor, empresaId)
-                    else if (option == 8) usuariosDAO.updateEnderecoEmpresa('cidade', valor, empresaId)
-                    else if (option == 9) usuariosDAO.updateEnderecoEmpresa('estado', valor, empresaId)
-                    else if (option == 10) usuariosDAO.updateEnderecoEmpresa('pais', valor, empresaId)
-                    else if (option == 11) usuariosDAO.updateEnderecoEmpresa('cep', valor, empresaId)
+                    if (option == 1) empresasDAO.updateEmpresa('nome', valor, empresaId)
+                    else if (option == 2) empresasDAO.updateEmpresa('cpf', valor, empresaId)
+                    else if (option == 3) empresasDAO.updateEmpresa('email', valor, empresaId)
+                    else if (option == 4) empresasDAO.updateEmpresa('descricao', valor, empresaId)
+                    else if (option == 5) empresasDAO.updateEmpresa('likedin_link', valor, empresaId)
+                    else if (option == 6) empresasDAO.updateEmpresa('data_nascimento', valor, empresaId)
+                    else if (option == 7) empresasDAO.updateEmpresa('senha', valor, empresaId)
+                    else if (option == 8) empresasDAO.updateEnderecoEmpresa('cidade', valor, empresaId)
+                    else if (option == 9) empresasDAO.updateEnderecoEmpresa('estado', valor, empresaId)
+                    else if (option == 10) empresasDAO.updateEnderecoEmpresa('pais', valor, empresaId)
+                    else if (option == 11) empresasDAO.updateEnderecoEmpresa('cep', valor, empresaId)
                     else println "Opcao Invalida"
                     break
                 case '9':
-                    usuariosDAO.listVagasEmpresas()
+                    vagasDAO.listVagasEmpresas()
                     break
-                case '10': // DONE
-                    println "Digite o ID da empresa da vaga"
-                    printf "> "
-                    def id_empresa = Utils.readInt()
-                    printf "Digite o Titulo da vaga: "
-                    def tituloVaga = Utils.readLine()
-                    printf "Digite a descricao da vaga: "
-                    def descricaoVaga = Utils.readLine()
-                    usuariosDAO.addVaga(id_empresa, tituloVaga, descricaoVaga)
+                case '10':
+                    def id_empresa = Utils.promptInputInt("ID da empresa da vaga")
+                    def tituloVaga = Utils.promptInput("Titulo da vaga")
+                    def descricaoVaga = Utils.promptInput("Descricao da vaga")
+                    vagasDAO.addVaga(id_empresa, tituloVaga, descricaoVaga)
                     break
-                case '11': // DONE
+                case '11':
                     print "ID da vaga: "
                     def idVaga
                     idVaga = Utils.readInt()
@@ -164,79 +145,59 @@ class MenuCRUD {
                     println "Selecione uma propriedade para editar: "
                     println "[1] Titulo"
                     println "[2] Descricao"
-                    printf "> "
-                    def option
-                    option = Utils.readInt()
+                    def option = Utils.promptInput("Opcao")
+                    def valor = Utils.promptInput("Novo valor")
 
-                    println "Digite o novo valor:"
-                    printf "> "
-                    def valor
-                    valor = Utils.readLine()
-
-                    if (option == 1) usuariosDAO.updateVaga('titulo', valor, idVaga)
-                    else if (option == 2) usuariosDAO.updateVaga('descricao', valor, idVaga)
+                    if (option == 1) vagasDAO.updateVaga('titulo', valor, idVaga)
+                    else if (option == 2) vagasDAO.updateVaga('descricao', valor, idVaga)
                     else println "Opcao Invalida"
                     break
-                case '12': // DONE
-                    print "ID da vaga: "
-                    def idVaga
-                    idVaga = Utils.readInt()
-                    usuariosDAO.deleteVaga(idVaga)
+                case '12':
+                    def idVaga = Utils.promptInputInt("ID da vaga")
+                    vagasDAO.deleteVaga(idVaga)
                     break
-                case '13': // DONE
-                    usuariosDAO.listCompetencias()
+                case '13':
+                    competenciasDAO.listCompetencias()
                     break
-                case '14': // DONE
-                    println "Adicionar competencia para: [1] Candidato [2] Vaga"
-                    printf "> "
-                    def option = Utils.readInt()
+                case '14':
+                    println "Adicionar competencia para:\n[1] Candidato\n[2] Vaga"
+                    def option = Utils.promptInput("Opcao")
                     if (option == 1) {
-                        println "Digite o id do candidato"
-                        printf "> "
-                        def idCandidato = Utils.readInt()
-
-                        printf "Digite o nome da competencia: "
-                        def nomeCompetencia = Utils.readLine()
-
-                        usuariosDAO.addCompetenciaCandidato(nomeCompetencia, idCandidato)
+                        def idCandidato = Utils.promptInputInt("ID do candidato")
+                        def nomeCompetencia = Utils.promptInput("Nome da competencia")
+                        competenciasDAO.addCompetenciaCandidato(nomeCompetencia, idCandidato)
                     } else if (option == 2) {
-                        println "Digite o id da vaga"
-                        printf "> "
-                        def idVaga = Utils.readInt()
-
-                        printf "Digite o nome da competencia: "
-                        def nomeCompetencia = Utils.readLine()
-
-                        usuariosDAO.addCompetenciaVaga(nomeCompetencia, idVaga)
+                        def idVaga = Utils.promptInputInt("ID da vaga")
+                        def nomeCompetencia = Utils.promptInput("Nome da competencia")
+                        competenciasDAO.addCompetenciaVaga(nomeCompetencia, idVaga)
                     } else println "Opcao Invalida"
                     break
-                case '15': // DONE
-                    printf "Digite o id da competencia: "
-                    def idCompetencia = Utils.readInt()
-                    printf "Digite o novo nome: "
-                    def novo = Utils.readLine()
-                    usuariosDAO.updateCompetencia(idCompetencia, novo)
+                case '15':
+                    def idCompetencia = Utils.promptInputInt("ID da competencia")
+                    def novo = Utils.promptInput("Novo nome")
+                    competenciasDAO.updateCompetencia(idCompetencia, novo)
                     break
-                case '16': // DONE
-                    printf "Digite o id da competencia: "
-                    def idCompetencia = Utils.readInt()
-                    usuariosDAO.deleteCompetencia(idCompetencia)
+                case '16':
+                    def idCompetencia = Utils.promptInputInt("ID da competencia")
+                    competenciasDAO.deleteCompetencia(idCompetencia)
                     break
                 case '17':
-                    printf "Digite o id da empresa: "
-                    def idEmpresa = Utils.readInt()
-                    printf "Digite o id do usuario para curtir: "
-                    def idUsuario = Utils.readInt()
-                    usuariosDAO.addCurtidaEmpresa(idEmpresa, idUsuario)
+                    def idEmpresa = Utils.promptInputInt("ID da empresa")
+                    def idUsuario = Utils.promptInputInt("ID do usuario para curtir")
+                    curtidasDAO.addCurtidaEmpresa(idEmpresa, idUsuario)
                     break
                 case '18':
-                    printf "Digite o id do usuario: "
-                    def idUsuario = Utils.readInt()
-                    printf "Digite o id da vaga para curtir: "
-                    def idVaga = Utils.readInt()
-                    usuariosDAO.addCurtidaCandidato(idUsuario, idVaga)
+                    def idUsuario = Utils.promptInputInt("ID do usuario")
+                    def idVaga = Utils.promptInputInt("ID da vaga para curtir")
+                    curtidasDAO.addCurtidaCandidato(idUsuario, idVaga)
                     break
                 case '19':
+                    curtidasDAO.mostrarCurtidasCandidato()
+                    break
+                case '20':
+                    curtidasDAO.mostrarCurtidasEmpresa()
+                    break
+                case '21':
                     return
                 default:
                     println "Opcao Invalida"
@@ -246,95 +207,37 @@ class MenuCRUD {
     }
 
     static Candidato candidatoInput() {
-        Scanner sc = new Scanner(System.in)
         Candidato candidato = new Candidato()
-        def input
         printf ""
 
-        printf "nome: "
-        input = sc.nextLine()
-        candidato.nome = input
-
-        printf "cpf: "
-        input = sc.nextLine()
-        candidato.cpf = input
-
-        printf "email: "
-        input = sc.nextLine()
-        candidato.email = input
-
-        printf "descricao: "
-        input = sc.nextLine()
-        candidato.descricao = input
-
-        printf "linkedinLink: "
-        input = sc.nextLine()
-        candidato.linkedinLink = input
-
-        printf "dataNascimento (dd-mm-yyyy): "
-        input = sc.nextLine()
-        candidato.dataNascimento = input
-
-        printf "cidade: "
-        input = sc.nextLine()
-        candidato.cidade = input
-
-        printf "estado: "
-        input = sc.nextLine()
-        candidato.estado = input
-
-        printf "pais: "
-        input = sc.nextLine()
-        candidato.pais = input
-
-        printf "cep: "
-        input = sc.nextLine()
-        candidato.cep = input
-
-        printf "senha: "
-        input = sc.nextLine()
-        candidato.senha = input
-
+        candidato.nome = Utils.promptInput("Nome")
+        candidato.cpf = Utils.promptInput("CPF")
+        candidato.email = Utils.promptInput("Email")
+        candidato.descricao = Utils.promptInput("Descricao")
+        candidato.linkedinLink = Utils.promptInput("Link do Linkedin")
+        candidato.dataNascimento = Utils.promptInput("dataNascimento (dd-mm-yyyy)")
+        candidato.cidade = Utils.promptInput("Cidade")
+        candidato.estado = Utils.promptInput("Estado")
+        candidato.pais = Utils.promptInput("Pais")
+        candidato.cep = Utils.promptInput("CEP")
+        candidato.senha = Utils.promptInput("Senha")
         return candidato
     }
 
     static Empresa empresaInput() {
-        Scanner sc = new Scanner(System.in)
-        def input
         Empresa empresa = new Empresa()
         printf ""
 
-        print "nome: "
-        input = Utils.readLine()
-        empresa.nome = input
-        print "cnpj: "
-        input = Utils.readLine()
-        empresa.cnpj = input
-        print "email: "
-        input = Utils.readLine()
-        empresa.email = input
-        print "descricao: "
-        input = Utils.readLine()
-        empresa.descricao = input
-        print "Link Linkedin: "
-        input = Utils.readLine()
-        empresa.linkedinLink = input
-        print "Senha: "
-        input = Utils.readLine()
-        empresa.senha = input
-        print "cidade: "
-        input = Utils.readLine()
-        empresa.cidade = input
-        print "estado: "
-        input = Utils.readLine()
-        empresa.estado = input
-        print "pais: "
-        input = Utils.readLine()
-        empresa.pais = input
-        print "cep: "
-        input = Utils.readLine()
-        empresa.cep = input
-
+        empresa.nome = Utils.promptInput("Nome")
+        empresa.cnpj = Utils.promptInput("CNPJ")
+        empresa.email = Utils.promptInput("Email")
+        empresa.descricao = Utils.promptInput("Descricao")
+        empresa.linkedinLink = Utils.promptInput("Link do Linkedin")
+        empresa.senha = Utils.promptInput("Senha")
+        empresa.cidade = Utils.promptInput("Cidade")
+        empresa.estado = Utils.promptInput("Estado")
+        empresa.pais = Utils.promptInput("Pais")
+        empresa.cep = Utils.promptInput("CEP")
         return empresa
     }
 }

@@ -7,7 +7,7 @@ class CurtidaCandidato {
     LocalDateTime data
 
     @Override
-    public String toString() {
+    String toString() {
         return "${id}, ${id_candidato}, ${id_vaga}, ${data}"
     }
 }
