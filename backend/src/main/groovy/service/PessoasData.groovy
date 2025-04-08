@@ -1,13 +1,7 @@
 package service
 
-import model.Candidato
-import model.Competencia
-import model.CompetenciaCandidato
-import model.CompetenciaVaga
-import model.CurtidaCandidato
-import model.CurtidaEmpresa
-import model.Empresa
-import model.Vaga
+import service.UsuariosDAO
+import model.*
 
 class PessoasData {
 

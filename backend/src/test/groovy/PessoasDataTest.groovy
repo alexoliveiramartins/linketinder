@@ -1,7 +1,6 @@
-package service
-
 import model.Candidato
 import model.Empresa
+import service.PessoasData
 import spock.lang.Specification
 
 class PessoasDataTest extends Specification {

@@ -4,7 +4,6 @@ import model.Candidato
 import model.Empresa
 import model.Vaga
 import service.PessoasData
-import service.UsuariosDAO
 import utils.Utils
 
 class MenuAplicacao {

@@ -1,6 +1,4 @@
-import service.PessoasData
 import view.MenuAplicacao
-import view.MenuCRUD
 
 // Linketinder - Alex Benjamim de Oliveira Martins (2025)
 

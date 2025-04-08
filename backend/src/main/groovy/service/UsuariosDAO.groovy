@@ -1,15 +1,7 @@
 package service
 
-import com.sun.tools.javac.util.Pair
 import groovy.sql.Sql
-import model.Candidato
-import model.Competencia
-import model.CompetenciaCandidato
-import model.CompetenciaVaga
-import model.CurtidaCandidato
-import model.CurtidaEmpresa
-import model.Empresa
-import model.Vaga
+import model.*
 
 import java.text.SimpleDateFormat
 

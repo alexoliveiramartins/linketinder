@@ -79,7 +79,7 @@ gradle run
 or
 ```bash
 cd backend/src/
-groovy Main.groovy
+groovy main.groovy.Main.groovy
 ```
 
 2. **Start the Frontend Application**

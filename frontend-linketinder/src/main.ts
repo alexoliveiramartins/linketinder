@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     forms?.appendChild(botaoCadastroEmpresa);
   });
 
-  // botoes de view
+  // botoes de main.groovy.view
   document.getElementById('botaoEmpresaView')?.addEventListener('click', botaoEmpresaViewCallbackListener);
   document.getElementById('botaoCandidatoView')?.addEventListener('click', botaoCandidatoViewCallbackListener);
   // empresasChart();

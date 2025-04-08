@@ -11,19 +11,12 @@ repositories {
 }
 
 dependencies {
-    implementation libs.org.apache.groovy.groovy
-    implementation libs.org.apache.groovy.groovy.json
-    implementation libs.org.apache.groovy.groovy.xml
-    implementation libs.org.apache.groovy.groovy.templates
-    implementation('org.postgresql:postgresql:42.7.2')
+    // groovy
+    implementation 'org.codehaus.groovy:groovy-all:3.0.10'
+    // postgres
     implementation libs.org.postgresql.postgresql
-    implementation 'org.apache.groovy:groovy-sql:4.0.21'
-
-    testImplementation libs.org.junit.jupiter.junit.jupiter
-    testImplementation libs.org.junit.jupiter.junit.jupiter.api
-    testImplementation libs.org.junit.jupiter.junit.jupiter.engine
-    testImplementation libs.org.junit.jupiter.junit.jupiter.params
-
+    // tests
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation libs.org.spockframework.spock.core
 }
 
@@ -39,12 +32,18 @@ java {
 sourceSets {
     main {
         groovy {
-            srcDirs = ['src']
+            srcDirs = ['src/main/groovy']
+        }
+        resources {
+            srcDirs = ['src/main/resources']
         }
     }
     test {
         groovy {
-            srcDirs = ['test']
+            srcDirs = ['src/test/groovy']
+        }
+        resources {
+            srcDirs = ['src/test/resources']
         }
     }
 }

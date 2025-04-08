@@ -3,31 +3,6 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-### Eclipse ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-### VS Code ###
-.vscode/
-
-### Mac OS ###
-.DS_Store
-
 # Gradle build output
 /build/
 /target/
@@ -36,13 +11,14 @@ bin/
 /gradle/wrapper/gradle-wrapper.log
 
 # IDE files (IntelliJ IDEA, Eclipse, etc.)
+.vscode/
 .idea/
 *.iml
 *.ipr
 *.iws
 
+# Others
 *.class
-/.idea/
 *.jar
 *.war
 *.ear
