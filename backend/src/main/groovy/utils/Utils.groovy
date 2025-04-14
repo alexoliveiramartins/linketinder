@@ -1,6 +1,16 @@
 package utils
 
+import groovy.sql.Sql
+
+import java.sql.SQLException
+
 class Utils {
+    static final dbConnParameters = [
+            'url'     : 'jdbc:postgresql://localhost:5432/linketinder-database',
+            'user'    : 'postgres',
+            'password': 'linketinder',
+            'driver'  : 'org.postgresql.Driver'
+    ]
 
     private static final Scanner sc = new Scanner(System.in)
 
@@ -26,5 +36,15 @@ class Utils {
         print "$property: "
         input = readInt()
         return input
+    }
+
+    static void dbErrorHandling(String acao, Closure block){
+        try {
+            block.call()
+        } catch (SQLException e){
+            println "Erro no banco de dados ao $acao: $e.message"
+        } catch (Exception e){
+            println "Erro inesperado ao $acao: $e.message"
+        }
     }
 }

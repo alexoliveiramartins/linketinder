@@ -1,17 +1,23 @@
 package view
 
+import groovy.sql.Sql
 import model.Candidato
 import model.Empresa
 import service.*
 import utils.Utils
 
+import java.sql.SQLException
+
 class MenuCRUD {
     static void showMenu() {
-        CandidatosDAO candidatosDAO = new CandidatosDAO()
-        VagasDAO vagasDAO = new VagasDAO()
-        EmpresasDAO empresasDAO = new EmpresasDAO()
-        CurtidasDAO curtidasDAO = new CurtidasDAO()
-        CompetenciasDAO competenciasDAO = new CompetenciasDAO()
+        Sql sql = Sql.newInstance(Sql.newInstance(Utils.dbConnParameters))
+
+        CandidatosDAO candidatosDAO = new CandidatosDAO(sql)
+        VagasDAO vagasDAO = new VagasDAO(sql)
+        EmpresasDAO empresasDAO = new EmpresasDAO(sql)
+        CurtidasDAO curtidasDAO = new CurtidasDAO(sql)
+        CompetenciasDAO competenciasDAO = new CompetenciasDAO(sql)
+
 
         while (true) {
             println "==== Menu ===="
@@ -161,7 +167,7 @@ class MenuCRUD {
                     break
                 case '14':
                     println "Adicionar competencia para:\n[1] Candidato\n[2] Vaga"
-                    def option = Utils.promptInput("Opcao")
+                    def option = Utils.promptInputInt("Opcao")
                     if (option == 1) {
                         def idCandidato = Utils.promptInputInt("ID do candidato")
                         def nomeCompetencia = Utils.promptInput("Nome da competencia")
@@ -198,6 +204,13 @@ class MenuCRUD {
                     curtidasDAO.mostrarCurtidasEmpresa()
                     break
                 case '21':
+                    try {
+                        sql.close()
+                    } catch(SQLException e){
+                        println "Erro no banco de dados ao fechar conexao: $e.message"
+                    } catch (Exception e){
+                        println "Erro inesperado ao fechar conexao com banco de dados: $e.message"
+                    }
                     return
                 default:
                     println "Opcao Invalida"
