@@ -1,5 +1,5 @@
-import { Usuario, Empresa } from './classes';
-import { candidatosChart, empresasChart } from './componentes';
+import { Usuario, Empresa } from '../components/classes';
+import { candidatosChart, empresasChart } from '../components/componentes';
 
 function cleanForms(): void {
   let forms: HTMLElement | null = document.getElementById('forms');

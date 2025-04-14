@@ -1,5 +1,5 @@
 import { Chart, registerables } from 'chart.js';
-import { candidatos, empresas } from './assets';
+import { candidatos, empresas } from '../utils/assets';
 Chart.register(...registerables);
 
 const botaoCadastroUsuario: HTMLButtonElement =

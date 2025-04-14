@@ -1,5 +1,5 @@
-import './style.css';
-import { botaoCadastroEmpresa, botaoCadastroUsuario } from './componentes';
+import "../../styles/globals.css";
+import { botaoCadastroEmpresa, botaoCadastroUsuario } from '../components/componentes';
 import {
   formularioCadastroEmpresa,
   formularioCadastroUsuario,
@@ -7,7 +7,7 @@ import {
   pushUsuarioForm,
   botaoEmpresaViewCallbackListener,
   botaoCandidatoViewCallbackListener,
-} from './assets';
+} from '../utils/assets';
 
 // consertar:
 // 1. Nao permitir formularios em branco
@@ -98,9 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
     forms?.appendChild(botaoCadastroEmpresa);
   });
 
-  // botoes de main.groovy.view
   document.getElementById('botaoEmpresaView')?.addEventListener('click', botaoEmpresaViewCallbackListener);
   document.getElementById('botaoCandidatoView')?.addEventListener('click', botaoCandidatoViewCallbackListener);
-  // empresasChart();
-  // candidatosChart();
 });
