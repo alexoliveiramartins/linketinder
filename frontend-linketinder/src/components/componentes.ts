@@ -1,8 +1,10 @@
 import { Chart, registerables } from 'chart.js';
-import { candidatos, empresas } from '../utils/assets';
+import { candidatos, empresas } from '../mocks/mockData';
+import { createElement } from '../utils/assets';
 Chart.register(...registerables);
 
-const botaoCadastroUsuario: HTMLButtonElement =
+
+export const botaoCadastroUsuario: HTMLButtonElement =
   document.createElement('button');
 botaoCadastroUsuario.setAttribute('type', 'submit');
 botaoCadastroUsuario.setAttribute('id', 'buttonEnviarCadastroUsuario');
@@ -11,9 +13,7 @@ botaoCadastroUsuario.className = 'buttonEnviarCadastroUsuario';
 botaoCadastroUsuario.innerText = 'Enviar Registro de Usuario';
 botaoCadastroUsuario.style.marginTop = '10px';
 
-export { botaoCadastroUsuario };
-
-const botaoCadastroEmpresa: HTMLButtonElement =
+export const botaoCadastroEmpresa: HTMLButtonElement =
   document.createElement('button');
 botaoCadastroEmpresa.setAttribute('type', 'submit');
 botaoCadastroEmpresa.setAttribute('id', 'buttonEnviarCadastroEmpresa');
@@ -22,7 +22,6 @@ botaoCadastroEmpresa.className = 'buttonEnviarCadastroEmpresa';
 botaoCadastroEmpresa.innerText = 'Enviar Registro de Empresa';
 botaoCadastroEmpresa.style.marginTop = '10px';
 
-export { botaoCadastroEmpresa };
 
 export const empresasChart = (): Chart => {
   const competenciaCount: Map<string, number> = new Map();
@@ -121,3 +120,34 @@ export const candidatosChart = (): Chart => {
   });
   return chartEmpresas;
 };
+
+export const formularioCadastroUsuario: {
+  inputLabel: HTMLLabelElement;
+  input: HTMLInputElement;
+}[] = [
+    createElement('nome', 'Nome'),
+    createElement('email', 'Email'),
+    createElement('estado', 'Estado'),
+    createElement('descricao', 'Descricao'),
+    createElement('cpf', 'CPF'),
+    createElement('cep', 'CEP'),
+    createElement('idade', 'Idade'),
+    createElement('competencias', 'Competencias', 'comp1, comp2, ..., compN'),
+    // nao tem nenhum verificador (por enquanto) entao use
+    // "competencia1, competencia2, ..., competenciaN" >:)
+  ];
+
+export const formularioCadastroEmpresa: {
+  inputLabel: HTMLLabelElement;
+  input: HTMLInputElement;
+}[] = [
+    createElement('nome', 'Nome'),
+    createElement('email', 'Email'),
+    createElement('estado', 'Estado'),
+    createElement('descricao', 'Descricao'),
+    createElement('pais', 'Pais'),
+    createElement('cnpj', 'CNPJ'),
+    createElement('competencias', 'Competencias', 'comp1, comp2, ..., compN'),
+    // nao tem nenhum verificador (por enquanto) entao use
+    // "competencia1, competencia2, ..., competenciaN" >:)
+  ];
