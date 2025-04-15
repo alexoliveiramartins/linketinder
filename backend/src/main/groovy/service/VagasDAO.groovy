@@ -7,6 +7,22 @@ import utils.Utils
 class VagasDAO {
     final Sql sql
 
+    Vaga getVagaById(int id) {
+        def vaga = new Vaga()
+        Utils.dbErrorHandling("retornar vaga por id", {
+            sql.eachRow(
+                    "SELECT * FROM vagas WHERE id = ?",
+                    [id]
+            ) { vagaResult ->
+                vaga.id = vagaResult.id
+                vaga.id_empresa = vagaResult.id_empresa
+                vaga.titulo = vagaResult.titulo
+                vaga.descricao = vagaResult.descricao
+            }
+        })
+        return vaga
+    }
+
     VagasDAO(Sql sql) {
         this.sql = sql
     }
@@ -17,29 +33,6 @@ class VagasDAO {
                     "INSERT INTO vagas (id_empresa, titulo, descricao) VALUES(?, ?, ?);",
                     [id_empresa, tituloVaga, descricaoVaga]
             )
-        })
-    }
-
-    void listVagasEmpresas() {
-        println "Vagas:"
-        Utils.dbErrorHandling("listar vagas + nome empresa", {
-            sql.eachRow("""
-            SELECT empresas.nome, vagas.titulo, vagas.descricao FROM vagas
-            INNER JOIN empresas ON vagas.id_empresa=empresas.id;
-        """) {
-                row -> println row
-            }
-        })
-    }
-
-    void listVagas() {
-        println "Vagas:"
-        Utils.dbErrorHandling("listar vagas",  {
-            sql.eachRow("""
-            SELECT * FROM vagas;
-        """) {
-                row -> println row
-            }
         })
     }
 

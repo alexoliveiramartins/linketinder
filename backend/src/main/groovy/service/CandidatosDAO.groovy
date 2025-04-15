@@ -4,14 +4,37 @@ import groovy.sql.Sql
 import model.Candidato
 import utils.Utils
 
-import java.sql.SQLException
 import java.text.SimpleDateFormat
 
 class CandidatosDAO {
     final Sql sql
 
-    CandidatosDAO(Sql sql){
+    CandidatosDAO(Sql sql) {
         this.sql = sql
+    }
+
+    Candidato getCandidatoById(int id) {
+        def candidato = new Candidato()
+        Utils.dbErrorHandling("retornar candidato por id", {
+            sql.eachRow(
+                    "SELECT * FROM candidatos AS c JOIN enderecos_candidatos AS e ON e.id_candidato = c.id WHERE c.id = ?;",
+                    [id]
+            ) { candidatoResult ->
+                candidato.id = candidatoResult.id
+                candidato.nome = candidatoResult.nome
+                candidato.cpf = candidatoResult.cpf
+                candidato.email = candidatoResult.email
+                candidato.descricao = candidatoResult.descricao
+                candidato.linkedinLink = candidatoResult.linkedin_link
+                candidato.dataNascimento = candidatoResult.data_nascimento
+                candidato.cidade = candidatoResult.cidade
+                candidato.estado = candidatoResult.estado
+                candidato.pais = candidatoResult.pais
+                candidato.cep = candidatoResult.cep
+                candidato.senha = candidatoResult.senha
+            }
+        })
+        return candidato
     }
 
     void addCandidato(Candidato candidato) {
@@ -28,19 +51,6 @@ class CandidatosDAO {
                     "INSERT INTO enderecos_candidatos (id_candidato, cidade, estado, pais, cep) VALUES ((SELECT id FROM candidatos WHERE email = ?), ?, ?, ?, ?)",
                     [candidato.email, candidato.cidade, candidato.estado, candidato.pais, candidato.cep]
             )
-        })
-    }
-
-    void listCandidatos() {
-        Utils.dbErrorHandling("listar candidatos", {
-            println "Candidatos:"
-            sql.eachRow("""
-                        SELECT c.id, c.nome, c.cpf, c.email, c.descricao, c.data_nascimento, c.linkedin_link, c.senha,
-                        en.cidade, en.estado, en.pais, en.cep
-                        FROM candidatos as c INNER JOIN enderecos_candidatos as en ON en.id_candidato = c.id;
-                        """) { row ->
-                println row
-            }
         })
     }
 

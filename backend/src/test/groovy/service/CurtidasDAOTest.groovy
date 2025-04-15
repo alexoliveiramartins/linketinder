@@ -37,26 +37,6 @@ class CurtidasDAOTest extends Specification {
         1 * sqlMock.execute({String query -> query.contains("INSERT INTO curtidas_empresa")}, _)
     }
 
-    def "MostrarCurtidasCandidato"() {
-        given:
-
-        when: "mostra curtidas do usuario"
-        curtidasDAO.mostrarCurtidasCandidato()
-
-        then: "Executa SELECT nas curtidas dos candidatos"
-        1 * sqlMock.eachRow({String query -> query.contains("SELECT") && query.contains("curtidas_candidato")}, _)
-    }
-
-    def "MostrarCurtidasEmpresa"() {
-        given:
-
-        when: "mostra curtidas da empresa"
-        curtidasDAO.mostrarCurtidasEmpresa()
-
-        then: "Executa SELECT nas curtidas dos candidatos"
-        1 * sqlMock.eachRow({String query -> query.contains("SELECT") && query.contains("curtidas_empresa")}, _)
-    }
-
     def "CurtidasEmpresasData"() {
         given: "Cria uma lista de curtidas de empresa"
         ArrayList<CurtidaEmpresa> curtidasEmpresas = new ArrayList<>()

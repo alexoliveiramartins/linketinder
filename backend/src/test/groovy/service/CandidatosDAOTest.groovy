@@ -13,6 +13,17 @@ class CandidatosDAOTest extends Specification {
         candidatosDAO = new CandidatosDAO(sqlMock)
     }
 
+    def "Retornar candidato por id no banco de dados"(){
+        given: "dado um id de candidato"
+        def id = 1
+
+        when: "solicita um candidato pelo id"
+        candidatosDAO.getCandidatoById(id)
+
+        then: "executa um SELECT com WHERE"
+        1 * sqlMock.eachRow({ String query -> query.contains("SELECT") && query.contains("WHERE")}, [id], _)
+    }
+
     def "Adicionar candidato no banco de dados"() {
         given: "Cria um candidato"
         def candidato = new Candidato(
@@ -37,16 +48,6 @@ class CandidatosDAOTest extends Specification {
 
         and: "Insert endereco do candidato e executado"
         1 * sqlMock.execute({ String query -> query.contains("INSERT INTO enderecos_candidatos") }, _)
-    }
-
-    def "Listar candidatos no banco de dados"() {
-        given: "Sem dados necessarios"
-
-        when: "Chama o metodo de listar candidatos"
-        candidatosDAO.listCandidatos()
-
-        then: "SELECT candidato e executado"
-        1 * sqlMock.eachRow({ String query -> query.contains("SELECT") && query.contains("FROM candidatos") && query.contains("INNER JOIN enderecos_candidatos") }, _)
     }
 
     def "Atualizar candidatos no banco de dados"() {

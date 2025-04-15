@@ -1,6 +1,5 @@
 package utils
 
-import groovy.sql.Sql
 
 import java.sql.SQLException
 
@@ -38,12 +37,12 @@ class Utils {
         return input
     }
 
-    static void dbErrorHandling(String acao, Closure block){
+    static void dbErrorHandling(String acao, Closure block) {
         try {
             block.call()
-        } catch (SQLException e){
+        } catch (SQLException e) {
             println "Erro no banco de dados ao $acao: $e.message"
-        } catch (Exception e){
+        } catch (Exception e) {
             println "Erro inesperado ao $acao: $e.message"
         }
     }

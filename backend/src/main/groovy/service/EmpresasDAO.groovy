@@ -1,15 +1,37 @@
 package service
 
 import groovy.sql.Sql
-import jdk.jshell.execution.Util
 import model.Empresa
 import utils.Utils
 
 class EmpresasDAO {
     final Sql sql
 
-    EmpresasDAO(Sql sql){
+    EmpresasDAO(Sql sql) {
         this.sql = sql
+    }
+
+    Empresa getEmpresaById(int id) {
+        def empresa = new Empresa()
+        Utils.dbErrorHandling("retornar empresa por id", {
+            sql.eachRow(
+                    "SELECT * FROM empresas AS e JOIN enderecos_empresas AS adr ON adr.id_empresa = e.id WHERE e.id = ?;",
+                    [id]
+            ) { empresaResult ->
+                empresa.id = empresaResult.id
+                empresa.nome = empresaResult.nome
+                empresa.cnpj = empresaResult.cnpj
+                empresa.email = empresaResult.email
+                empresa.descricao = empresaResult.descricao
+                empresa.linkedinLink = empresaResult.linkedin_link
+                empresa.cidade = empresaResult.cidade
+                empresa.estado = empresaResult.estado
+                empresa.pais = empresaResult.pais
+                empresa.cep = empresaResult.cep
+                empresa.senha = empresaResult.senha
+            }
+        })
+        return empresa
     }
 
     void addEmpresa(Empresa empresa) {
@@ -22,19 +44,6 @@ class EmpresasDAO {
                     "INSERT INTO enderecos_empresas (id_empresa, cidade, estado, pais, cep) VALUES ((SELECT id FROM empresas WHERE email = ?), ?, ?, ?, ?)",
                     [empresa.email, empresa.cidade, empresa.estado, empresa.pais, empresa.cep]
             )
-        })
-    }
-
-    void listEmpresas() {
-        println "Empresas:"
-        Utils.dbErrorHandling("listar empresas", {
-            sql.eachRow("""
-                        SELECT e.id, e.nome, e.cnpj, e.email, e.descricao, e.linkedin_link, e.senha,
-                        en.cidade, en.estado, en.pais, en.cep
-                        FROM empresas as e INNER JOIN enderecos_empresas as en ON en.id_empresa = e.id;
-                        """) { row ->
-                println row
-            }
         })
     }
 

@@ -13,6 +13,16 @@ class EmpresasDAOTest extends Specification {
         empresasDAO = new EmpresasDAO(sqlMock)
     }
 
+    def "Retornar empresa por id no banco de dados"(){
+        given: "dado um id de empresa"
+        def id = 1
+
+        when: "solicita um candidato pelo id"
+        empresasDAO.getEmpresaById(id)
+
+        then: "executa um SELECT com WHERE"
+        1 * sqlMock.eachRow({ String query -> query.contains("SELECT") && query.contains("WHERE")}, [id], _)
+    }
 
     def "AddEmpresa"() {
         given: "cria uma empresa"
@@ -37,16 +47,6 @@ class EmpresasDAOTest extends Specification {
 
         and: "executa um INSERT na tabela de enderecos de empresas"
         1 * sqlMock.execute({String query -> query.contains("INSERT INTO enderecos_empresas")}, _)
-    }
-
-    def "ListEmpresas"() {
-        given:
-
-        when: "lista as empresas"
-        empresasDAO.listEmpresas()
-
-        then: "executa um SELECT no bd"
-        1 * sqlMock.eachRow({String query -> query.contains("SELECT") && query.contains("FROM empresas") && query.contains("enderecos_empresas")}, _)
     }
 
     def "UpdateEmpresa"() {

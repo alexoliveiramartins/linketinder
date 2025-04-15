@@ -2,8 +2,6 @@ package service
 
 import groovy.sql.Sql
 import model.Competencia
-import model.CompetenciaCandidato
-import model.CompetenciaVaga
 import utils.Utils
 
 class CompetenciasDAO {
@@ -39,14 +37,6 @@ class CompetenciasDAO {
                     "INSERT INTO candidato_competencia(id_candidato, id_competencia) VALUES (?, (SELECT id FROM competencias WHERE nome = ?));",
                     [id_candidato, nome]
             )
-        })
-    }
-
-    void listCompetencias(){
-        Utils.dbErrorHandling("listar competencias", {
-            sql.eachRow("""
-                         SELECT * FROM competencias;
-                       """) {row -> println row}
         })
     }
 

@@ -22,16 +22,6 @@ class CompetenciasDAOTest extends Specification {
         // A FAZER
     }
 
-    def "ListCompetencias"() {
-        given: "Sem dados necessarios"
-
-        when: "Listar as competencias"
-        competenciasDAO.listCompetencias()
-
-        then: "Executa um SELECT"
-        1 * sqlMock.eachRow({String query -> query.contains("SELECT") && query.contains("FROM competencias")}, _)
-    }
-
     def "UpdateCompetencia"() {
         given: "Dado um id de competencia e nome para atualizar"
         int id = 1

@@ -8,7 +8,7 @@ import utils.Utils
 class CurtidasDAO {
     final Sql sql
 
-    CurtidasDAO(Sql sql){
+    CurtidasDAO(Sql sql) {
         this.sql = sql
     }
 
@@ -25,31 +25,6 @@ class CurtidasDAO {
             sql.execute('''INSERT INTO curtidas_empresa(id_empresa, id_candidato, data_curtida)
                             VALUES(?, ?, CURRENT_DATE);
                          ''', [id_empresa, id_candidato])
-        })
-    }
-
-    void mostrarCurtidasCandidato() {
-        Utils.dbErrorHandling("mostrar curtidas candidato", {
-            sql.eachRow('''SELECT c.nome, v.titulo, v.id_empresa FROM candidatos AS c
-                            JOIN curtidas_candidato AS curt ON curt.id_candidato = c.id
-                            JOIN vagas AS v ON curt.id_vaga = v.id;
-                         ''')
-                    { row ->
-                        println "$row.nome curtiu \"$row.titulo\" (Empresa $row.id_empresa)"
-                    }
-        })
-    }
-
-    void mostrarCurtidasEmpresa() {
-        Utils.dbErrorHandling("mostrar curtidas empresa", {
-            sql.eachRow('''SELECT e.nome as nome_empresa, c.nome as nome_candidato 
-                            FROM candidatos AS c
-                            JOIN curtidas_empresa as curt ON curt.id_candidato = c.id 
-                            JOIN empresas AS e ON curt.id_empresa = e.id;
-                         ''')
-                    { row ->
-                        println "$row.nome_empresa curtiu \"$row.nome_candidato\""
-                    }
         })
     }
 

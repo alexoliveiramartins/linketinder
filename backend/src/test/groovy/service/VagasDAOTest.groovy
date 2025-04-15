@@ -13,6 +13,17 @@ class VagasDAOTest extends Specification {
         vagasDAO = new VagasDAO(sqlMock)
     }
 
+    def "Retornar vaga por id no banco de dados"(){
+        given: "dado um id de vaga"
+        def id = 1
+
+        when: "solicita uma vaga pelo id"
+        vagasDAO.getVagaById(id)
+
+        then: "executa um SELECT com WHERE"
+        1 * sqlMock.eachRow({ String query -> query.contains("SELECT") && query.contains("WHERE")}, [id], _)
+    }
+
     def "AddVaga"() {
         given: "cria uma vaga"
         int id_empresa = 1
@@ -24,26 +35,6 @@ class VagasDAOTest extends Specification {
 
         then: "executa um INSERT INTO no banco de dados"
         1 * sqlMock.execute({ String query -> query.contains("INSERT INTO") && query.contains("vagas")}, _)
-    }
-
-    def "listar vagas + nome empresa"() {
-        given:
-
-        when: "lista as vagas"
-        vagasDAO.listVagasEmpresas()
-
-        then: "executa um INSERT INTO no banco de dados"
-        1 * sqlMock.eachRow({ String query -> query.contains("SELECT") && query.contains("FROM vagas")}, _)
-    }
-
-    def "listar todas as vagas"() {
-        given:
-
-        when: "lista as vagas"
-        vagasDAO.listVagas()
-
-        then: "executa um INSERT INTO no banco de dados"
-        1 * sqlMock.eachRow({ String query -> query.contains("SELECT") && query.contains("FROM vagas")}, _)
     }
 
     def "UpdateVaga"() {
