@@ -4,13 +4,6 @@ package utils
 import java.sql.SQLException
 
 class Utils {
-    static final dbConnParameters = [
-            'url'     : 'jdbc:postgresql://localhost:5432/linketinder-database',
-            'user'    : 'postgres',
-            'password': 'linketinder',
-            'driver'  : 'org.postgresql.Driver'
-    ]
-
     private static final Scanner sc = new Scanner(System.in)
 
     static int readInt() {

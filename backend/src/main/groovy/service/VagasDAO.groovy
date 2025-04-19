@@ -7,6 +7,10 @@ import utils.Utils
 class VagasDAO {
     final Sql sql
 
+    VagasDAO(Sql sql) {
+        this.sql = sql
+    }
+
     Vaga getVagaById(int id) {
         def vaga = new Vaga()
         Utils.dbErrorHandling("retornar vaga por id", {
@@ -21,10 +25,6 @@ class VagasDAO {
             }
         })
         return vaga
-    }
-
-    VagasDAO(Sql sql) {
-        this.sql = sql
     }
 
     void addVaga(int id_empresa, String tituloVaga, String descricaoVaga) {

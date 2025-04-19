@@ -7,7 +7,7 @@ import service.*
 import utils.Utils
 
 class MenuActions {
-    Sql sql = Sql.newInstance(Sql.newInstance(Utils.dbConnParameters))
+    Sql sql = SqlInstance.getInstance().sqlConnection
 
     CandidatosDAO candidatosDAO = new CandidatosDAO(sql)
     VagasDAO vagasDAO = new VagasDAO(sql)
