@@ -1,8 +1,8 @@
-package service
+package controller
+
 
 import groovy.sql.Sql
 import model.Competencia
-import model.CompetenciaCandidato
 import spock.lang.Specification
 
 class CompetenciasDAOTest extends Specification {

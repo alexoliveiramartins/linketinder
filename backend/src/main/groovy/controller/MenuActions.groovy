@@ -1,9 +1,9 @@
-package view
+package controller
 
 import groovy.sql.Sql
 import model.Candidato
 import model.Empresa
-import service.*
+import model.SqlInstance
 import utils.Utils
 
 class MenuActions {

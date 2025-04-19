@@ -1,4 +1,5 @@
-package service
+package controller
+
 
 import groovy.sql.Sql
 import model.Candidato

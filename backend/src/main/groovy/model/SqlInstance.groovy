@@ -1,7 +1,6 @@
-package service
+package model
 
 import groovy.sql.Sql
-import utils.Utils
 
 class SqlInstance {
     private static SqlInstance instance
