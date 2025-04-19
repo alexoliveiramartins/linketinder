@@ -1,4 +1,4 @@
-package controller
+package dao
 
 import groovy.sql.Sql
 import model.Empresa

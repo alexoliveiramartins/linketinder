@@ -1,5 +1,10 @@
 package controller
 
+import dao.CandidatosDAO
+import dao.CompetenciasDAO
+import dao.CurtidasDAO
+import dao.EmpresasDAO
+import dao.VagasDAO
 import groovy.sql.Sql
 import model.Candidato
 import model.Empresa

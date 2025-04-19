@@ -1,6 +1,6 @@
-package controller
+package dao
 
-
+import dao.CompetenciasDAO
 import groovy.sql.Sql
 import model.Competencia
 import spock.lang.Specification

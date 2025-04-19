@@ -1,6 +1,6 @@
-package controller
+package dao
 
-
+import dao.CurtidasDAO
 import groovy.sql.Sql
 import model.CurtidaEmpresa
 import spock.lang.Specification

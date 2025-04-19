@@ -1,6 +1,6 @@
-package controller
+package dao
 
-
+import dao.VagasDAO
 import groovy.sql.Sql
 import model.Vaga
 import spock.lang.Specification

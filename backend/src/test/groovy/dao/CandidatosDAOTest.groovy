@@ -1,6 +1,6 @@
-package controller
+package dao
 
-
+import dao.CandidatosDAO
 import groovy.sql.Sql
 import model.Candidato
 import spock.lang.Specification
