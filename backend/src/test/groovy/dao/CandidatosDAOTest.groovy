@@ -19,7 +19,7 @@ class CandidatosDAOTest extends Specification {
         def id = 1
 
         when: "solicita um candidato pelo id"
-        candidatosDAO.getCandidatoById(id)
+        candidatosDAO.get(id)
 
         then: "executa um SELECT com WHERE"
         1 * sqlMock.eachRow({ String query -> query.contains("SELECT") && query.contains("WHERE")}, [id], _)
@@ -42,7 +42,7 @@ class CandidatosDAOTest extends Specification {
         )
 
         when: "Chama o metodo de adicionar candidato"
-        candidatosDAO.addCandidato(candidato)
+        candidatosDAO.add(candidato)
 
         then: "Insert candidato e executado"
         1 * sqlMock.execute({ String query -> query.contains("INSERT INTO candidatos") }, _)
@@ -58,7 +58,7 @@ class CandidatosDAOTest extends Specification {
         int idCandidato = 1
 
         when: "Atualiza o campo com novo valor de um usuario"
-        candidatosDAO.updateCandidato(campo, novo, idCandidato)
+        candidatosDAO.update(campo, novo, idCandidato)
 
         then: "Executa um UPDATE na tabela de candidatos no banco de dados"
         1 * sqlMock.execute ({ String query -> query.contains("UPDATE candidatos SET") }, _)
@@ -82,7 +82,7 @@ class CandidatosDAOTest extends Specification {
         def id = 1
 
         when: "Deleta um candidato"
-        candidatosDAO.deleteCandidato(id)
+        candidatosDAO.delete(id)
 
         then: "Executa um DELETE com WHERE na tabela de candidatos no banco de dados"
         1 * sqlMock.execute ({ String query -> query.contains("DELETE FROM candidatos WHERE id") }, _)

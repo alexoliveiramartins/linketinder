@@ -3,6 +3,7 @@ package view
 
 import model.Candidato
 import model.Empresa
+import model.Vaga
 import utils.Utils
 
 class MenuCRUD {
@@ -55,7 +56,8 @@ class MenuCRUD {
                     def id_empresa = Utils.promptInputInt("ID da empresa da vaga")
                     def tituloVaga = Utils.promptInput("Titulo da vaga")
                     def descricaoVaga = Utils.promptInput("Descricao da vaga")
-                    menuActions.addVaga(id_empresa, tituloVaga, descricaoVaga)
+                    Vaga vaga = new Vaga(id_empresa, tituloVaga, descricaoVaga)
+                    menuActions.addVaga(vaga)
                     break
                 case '11':
                     print "ID da vaga: "
@@ -68,7 +70,7 @@ class MenuCRUD {
                     break
                 case '12':
                     def idVaga = Utils.promptInputInt("ID da vaga")
-                    menuActions.deleteEmpresa(idVaga)
+                    menuActions.deleteVaga(idVaga)
                     break
                 case '13':
                     menuActions.listCompetencias()

@@ -4,15 +4,15 @@ import groovy.sql.Sql
 import model.Vaga
 import utils.Utils
 
-class VagasDAO {
-    final Sql sql
+class VagasDAO implements IDao<Vaga>{
+    private final Sql sql
 
     VagasDAO(Sql sql) {
         this.sql = sql
     }
 
-    Vaga getVagaById(int id) {
-        def vaga = new Vaga()
+    Vaga get(int id) {
+        Vaga vaga
         Utils.dbErrorHandling("retornar vaga por id", {
             sql.eachRow(
                     "SELECT * FROM vagas WHERE id = ?",
@@ -27,16 +27,16 @@ class VagasDAO {
         return vaga
     }
 
-    void addVaga(int id_empresa, String tituloVaga, String descricaoVaga) {
+    void add(Vaga vaga) {
         Utils.dbErrorHandling("adicionar vaga", {
             sql.execute(
                     "INSERT INTO vagas (id_empresa, titulo, descricao) VALUES(?, ?, ?);",
-                    [id_empresa, tituloVaga, descricaoVaga]
+                    [vaga.id_empresa, vaga.titulo, vaga.descricao]
             )
         })
     }
 
-    void updateVaga(String campo, String novo, int idVaga) {
+    void update(String campo, String novo, int idVaga) {
         Utils.dbErrorHandling("atualizar vaga", {
             sql.execute("""
             UPDATE vagas SET ${campo} = ? WHERE id = ?;
@@ -44,7 +44,7 @@ class VagasDAO {
         })
     }
 
-    void deleteVaga(int id) {
+    void delete(int id) {
         Utils.dbErrorHandling("deletar vaga", {
             sql.execute(
                     "DELETE FROM vagas WHERE id = ?;",
@@ -61,11 +61,7 @@ class VagasDAO {
         """) {
                 row ->
                     {
-                        Vaga vagaItem = new Vaga()
-                        vagaItem.id = row.id
-                        vagaItem.id_empresa = row.id_empresa
-                        vagaItem.titulo = row.titulo
-                        vagaItem.descricao = row.descricao
+                        Vaga vagaItem = new Vaga(row.id, row.id_empresa, row.titulo, row.descricao)
 
                         vagasData.push(vagaItem)
                     }

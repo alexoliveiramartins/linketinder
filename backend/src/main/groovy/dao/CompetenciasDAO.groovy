@@ -4,11 +4,15 @@ import groovy.sql.Sql
 import model.Competencia
 import utils.Utils
 
-class CompetenciasDAO {
-    final Sql sql
+class CompetenciasDAO implements IDao<Competencia> {
+    private final Sql sql
 
     CompetenciasDAO(Sql sql) {
         this.sql = sql
+    }
+
+    void add(Competencia competencia) {
+        sql.execute("INSERT INTO competencias (nome) VALUES (?);", [competencia.nome])
     }
 
     void addCompetenciaVaga(String nome, int id_vaga) {
@@ -40,15 +44,15 @@ class CompetenciasDAO {
         })
     }
 
-    void updateCompetencia(int idCompetencia, String nomeSet) {
-        Utils.dbErrorHandling("atualizar competencia", {
-            sql.execute("UPDATE competencias SET nome = ? WHERE id = ?;", [nomeSet, idCompetencia])
+    void delete(int idCompetencia) {
+        Utils.dbErrorHandling("deletar competencia", {
+            sql.execute("DELETE FROM competencias WHERE id = ?;", [idCompetencia])
         })
     }
 
-    void deleteCompetencia(int idCompetencia) {
-        Utils.dbErrorHandling("deletar competencia", {
-            sql.execute("DELETE FROM competencias WHERE id = ?;", [idCompetencia])
+    void update(String campo, String nomeSet, int idCompetencia) {
+        Utils.dbErrorHandling("atualizar competencia", {
+            sql.execute("UPDATE competencias SET nome = ? WHERE id = ?;", [nomeSet, idCompetencia])
         })
     }
 
@@ -62,6 +66,15 @@ class CompetenciasDAO {
         Utils.dbErrorHandling("deletar competencia candidato", {
             sql.execute("DELETE FROM candidato_competencia WHERE id_competencia = ? AND id_candidato = ?;", [idCompetencia, idCandidato])
         })
+    }
+
+    Competencia get(int id){
+        Competencia competencia = new Competencia()
+        sql.eachRow("SELECT * FROM competencias WHERE id = ?", [id]) { row ->
+            competencia.id = row.id
+            competencia.nome = row.nome
+        }
+        return competencia
     }
 
     List<Competencia> competenciaData() {

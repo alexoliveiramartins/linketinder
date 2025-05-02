@@ -6,14 +6,45 @@ import utils.Utils
 
 import java.text.SimpleDateFormat
 
-class CandidatosDAO {
-    final Sql sql
+class CandidatosDAO implements IDao<Candidato> {
+    private final Sql sql
 
     CandidatosDAO(Sql sql) {
         this.sql = sql
     }
 
-    Candidato getCandidatoById(int id) {
+    void add(Candidato candidato) {
+        def sdf = new SimpleDateFormat("dd-MM-yyyy")
+        def parsedDate = sdf.parse(candidato.dataNascimento)
+        def sqlDate = new java.sql.Date(parsedDate.getTime())
+
+        Utils.dbErrorHandling("adicionar candidato", {
+            sql.execute(
+                    "INSERT INTO candidatos (nome, cpf, email, descricao, data_nascimento, linkedin_link, senha) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    [candidato.nome, candidato.cpf, candidato.email, candidato.descricao, sqlDate, candidato.linkedinLink, candidato.senha]
+            )
+            sql.execute(
+                    "INSERT INTO enderecos_candidatos (id_candidato, cidade, estado, pais, cep) VALUES ((SELECT id FROM candidatos WHERE email = ?), ?, ?, ?, ?)",
+                    [candidato.email, candidato.cidade, candidato.estado, candidato.pais, candidato.cep]
+            )
+        })
+    }
+
+    void delete(int id) {
+        Utils.dbErrorHandling("deletar candidato", {
+            sql.execute("DELETE FROM candidatos WHERE id = ?;", [id])
+        })
+    }
+
+    void update(String campo, String novo, int idCandidato) {
+        Utils.dbErrorHandling("atualizar candidato", {
+            sql.execute("""
+                UPDATE candidatos SET ${campo} = ? WHERE id = ?;
+            """, [novo, idCandidato])
+        })
+    }
+
+    Candidato get(int id) {
         def candidato = new Candidato()
         Utils.dbErrorHandling("retornar candidato por id", {
             sql.eachRow(
@@ -37,40 +68,9 @@ class CandidatosDAO {
         return candidato
     }
 
-    void addCandidato(Candidato candidato) {
-        def sdf = new SimpleDateFormat("dd-MM-yyyy")
-        def parsedDate = sdf.parse(candidato.dataNascimento)
-        def sqlDate = new java.sql.Date(parsedDate.getTime())
-
-        Utils.dbErrorHandling("adicionar candidato", {
-            sql.execute(
-                    "INSERT INTO candidatos (nome, cpf, email, descricao, data_nascimento, linkedin_link, senha) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                    [candidato.nome, candidato.cpf, candidato.email, candidato.descricao, sqlDate, candidato.linkedinLink, candidato.senha]
-            )
-            sql.execute(
-                    "INSERT INTO enderecos_candidatos (id_candidato, cidade, estado, pais, cep) VALUES ((SELECT id FROM candidatos WHERE email = ?), ?, ?, ?, ?)",
-                    [candidato.email, candidato.cidade, candidato.estado, candidato.pais, candidato.cep]
-            )
-        })
-    }
-
-    void updateCandidato(String campo, String novo, int idCandidato) {
-        Utils.dbErrorHandling("atualizar candidato", {
-            sql.execute("""
-                UPDATE candidatos SET ${campo} = ? WHERE id = ?;
-            """, [novo, idCandidato])
-        })
-    }
-
     void updateEnderecoCandidato(String campo, String novo, int idCandidato) {
         Utils.dbErrorHandling("atualizar endereco de candidato", {
             sql.execute("UPDATE enderecos_candidatos SET ${campo} = ? WHERE id_candidato = ?;", [novo, idCandidato])
-        })
-    }
-
-    void deleteCandidato(int id) {
-        Utils.dbErrorHandling("deletar candidato", {
-            sql.execute("DELETE FROM candidatos WHERE id = ?;", [id])
         })
     }
 

@@ -4,14 +4,14 @@ import groovy.sql.Sql
 import model.Empresa
 import utils.Utils
 
-class EmpresasDAO {
+class EmpresasDAO implements IDao<Empresa>{
     final Sql sql
 
     EmpresasDAO(Sql sql) {
         this.sql = sql
     }
 
-    Empresa getEmpresaById(int id) {
+    Empresa get(int id) {
         def empresa = new Empresa()
         Utils.dbErrorHandling("retornar empresa por id", {
             sql.eachRow(
@@ -34,7 +34,7 @@ class EmpresasDAO {
         return empresa
     }
 
-    void addEmpresa(Empresa empresa) {
+    void add(Empresa empresa) {
         Utils.dbErrorHandling("adicionar empresa", {
             sql.execute(
                     "INSERT INTO empresas (nome, cnpj, email, descricao, linkedin_link, senha) VALUES (?, ?, ?, ?, ?, ?)",
@@ -47,7 +47,7 @@ class EmpresasDAO {
         })
     }
 
-    void updateEmpresa(String campo, String novo, int idEmpresa) {
+    void update(String campo, String novo, int idEmpresa) {
         Utils.dbErrorHandling("atualizar empresa", {
             sql.execute("""
             UPDATE empresas SET ${campo} = ? WHERE id = ?;
@@ -61,7 +61,7 @@ class EmpresasDAO {
         })
     }
 
-    void deleteEmpresa(int id) {
+    void delete(int id) {
         Utils.dbErrorHandling("deletar empresa", {
             sql.execute("DELETE FROM empresas WHERE id = ?;", [id])
         })

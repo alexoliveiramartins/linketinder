@@ -19,13 +19,13 @@ class EmpresasDAOTest extends Specification {
         def id = 1
 
         when: "solicita um candidato pelo id"
-        empresasDAO.getEmpresaById(id)
+        empresasDAO.get(id)
 
         then: "executa um SELECT com WHERE"
         1 * sqlMock.eachRow({ String query -> query.contains("SELECT") && query.contains("WHERE")}, [id], _)
     }
 
-    def "AddEmpresa"() {
+    def Add() {
         given: "cria uma empresa"
         Empresa empresa = new Empresa(
                 nome: 'Havan',
@@ -41,7 +41,7 @@ class EmpresasDAOTest extends Specification {
         )
 
         when: "adiciona empresa"
-        empresasDAO.addEmpresa(empresa)
+        empresasDAO.add(empresa)
 
         then: "executa um INSERT na tabela de empresas"
         1 * sqlMock.execute({String query -> query.contains("INSERT INTO empresas")}, _)
@@ -50,14 +50,14 @@ class EmpresasDAOTest extends Specification {
         1 * sqlMock.execute({String query -> query.contains("INSERT INTO enderecos_empresas")}, _)
     }
 
-    def "UpdateEmpresa"() {
+    def Update() {
         given: "dados valores de campo a ser mudado, valor novo e id da empresa"
         String campo = "nome"
         String novo = "Kabum"
         int idEmpresa = 1
 
         when: "Atualiza a empresa selecionada no campo selecionado com valor novo"
-        empresasDAO.updateEmpresa(campo, novo, idEmpresa)
+        empresasDAO.update(campo, novo, idEmpresa)
 
         then: "executa um UPDATE no campo"
         1 * sqlMock.execute({String query -> query.contains("UPDATE empresas") && query.contains("SET")}, _)
@@ -76,12 +76,12 @@ class EmpresasDAOTest extends Specification {
         1 * sqlMock.execute({String query -> query.contains("UPDATE enderecos_empresas") && query.contains("WHERE")}, _)
     }
 
-    def "DeleteEmpresa"() {
+    def Delete() {
         given: "dado id da empresa para deletar"
         int id = 1
 
         when: "deleta a empresa"
-        empresasDAO.deleteEmpresa(id)
+        empresasDAO.delete(id)
 
         then: "executa um DELETE da empresa com id selecionado"
         1 * sqlMock.execute({String query -> query.contains("DELETE") && query.contains("WHERE")}, _)

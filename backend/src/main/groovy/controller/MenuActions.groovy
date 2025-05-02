@@ -9,6 +9,7 @@ import groovy.sql.Sql
 import model.Candidato
 import model.Empresa
 import model.SqlInstance
+import model.Vaga
 import utils.Utils
 
 class MenuActions {
@@ -26,17 +27,17 @@ class MenuActions {
     }
 
     void addCandidato(Candidato candidato) {
-        candidatosDAO.addCandidato(candidato)
+        candidatosDAO.add(candidato)
     }
 
     void updateCandidato(int option, String valor, int candidatoId) {
-        if (option == 1) candidatosDAO.updateCandidato('nome', valor, candidatoId)
-        else if (option == 2) candidatosDAO.updateCandidato('cpf', valor, candidatoId)
-        else if (option == 3) candidatosDAO.updateCandidato('email', valor, candidatoId)
-        else if (option == 4) candidatosDAO.updateCandidato('descricao', valor, candidatoId)
-        else if (option == 5) candidatosDAO.updateCandidato('likedin_link', valor, candidatoId)
-        else if (option == 6) candidatosDAO.updateCandidato('data_nascimento', valor, candidatoId)
-        else if (option == 7) candidatosDAO.updateCandidato('senha', valor, candidatoId)
+        if (option == 1) candidatosDAO.update('nome', valor, candidatoId)
+        else if (option == 2) candidatosDAO.update('cpf', valor, candidatoId)
+        else if (option == 3) candidatosDAO.update('email', valor, candidatoId)
+        else if (option == 4) candidatosDAO.update('descricao', valor, candidatoId)
+        else if (option == 5) candidatosDAO.update('likedin_link', valor, candidatoId)
+        else if (option == 6) candidatosDAO.update('data_nascimento', valor, candidatoId)
+        else if (option == 7) candidatosDAO.update('senha', valor, candidatoId)
         else if (option == 8) candidatosDAO.updateEnderecoCandidato('cidade', valor, candidatoId)
         else if (option == 9) candidatosDAO.updateEnderecoCandidato('estado', valor, candidatoId)
         else if (option == 10) candidatosDAO.updateEnderecoCandidato('pais', valor, candidatoId)
@@ -45,7 +46,7 @@ class MenuActions {
     }
 
     void deleteCandidato(int option) {
-        candidatosDAO.deleteCandidato(option)
+        candidatosDAO.delete(option)
     }
 
     void listEmpresas() {
@@ -54,20 +55,20 @@ class MenuActions {
     }
 
     void addEmpresa(Empresa empresa) {
-        empresasDAO.addEmpresa(empresa)
+        empresasDAO.add(empresa)
     }
 
     void deleteEmpresa(int idEmpresa) {
-        empresasDAO.deleteEmpresa(idEmpresa)
+        empresasDAO.delete(idEmpresa)
     }
 
     void updateEmpresa(int option, String valor, int empresaId) {
-        if (option == 1) empresasDAO.updateEmpresa('nome', valor, empresaId)
-        else if (option == 2) empresasDAO.updateEmpresa('cnpj', valor, empresaId)
-        else if (option == 3) empresasDAO.updateEmpresa('email', valor, empresaId)
-        else if (option == 4) empresasDAO.updateEmpresa('descricao', valor, empresaId)
-        else if (option == 5) empresasDAO.updateEmpresa('likedin_link', valor, empresaId)
-        else if (option == 6) empresasDAO.updateEmpresa('senha', valor, empresaId)
+        if (option == 1) empresasDAO.update('nome', valor, empresaId)
+        else if (option == 2) empresasDAO.update('cnpj', valor, empresaId)
+        else if (option == 3) empresasDAO.update('email', valor, empresaId)
+        else if (option == 4) empresasDAO.update('descricao', valor, empresaId)
+        else if (option == 5) empresasDAO.update('likedin_link', valor, empresaId)
+        else if (option == 6) empresasDAO.update('senha', valor, empresaId)
         else if (option == 7) empresasDAO.updateEnderecoEmpresa('cidade', valor, empresaId)
         else if (option == 8) empresasDAO.updateEnderecoEmpresa('estado', valor, empresaId)
         else if (option == 9) empresasDAO.updateEnderecoEmpresa('pais', valor, empresaId)
@@ -80,18 +81,18 @@ class MenuActions {
         vagas.each { it -> println it }
     }
 
-    void addVaga(int id_empresa, String tituloVaga, String descricaoVaga) {
-        vagasDAO.addVaga(id_empresa, tituloVaga, descricaoVaga)
+    void addVaga(Vaga vaga) {
+        vagasDAO.add(vaga)
     }
 
     void updateVaga(int option, String valor, int idVaga) {
-        if (option == 1) vagasDAO.updateVaga('titulo', valor, idVaga)
-        else if (option == 2) vagasDAO.updateVaga('descricao', valor, idVaga)
+        if (option == 1) vagasDAO.update('titulo', valor, idVaga)
+        else if (option == 2) vagasDAO.update('descricao', valor, idVaga)
         else println "Opcao Invalida"
     }
 
     void deleteVaga(int idVaga) {
-        vagasDAO.deleteVaga(idVaga)
+        vagasDAO.delete(idVaga)
     }
 
     void listCompetencias() {
@@ -112,11 +113,11 @@ class MenuActions {
     }
 
     void updateCompetencia(int idCompetencia, String novo) {
-        competenciasDAO.updateCompetencia(idCompetencia, novo)
+        competenciasDAO.update("nome", novo, idCompetencia)
     }
 
     void deleteCompetencia(int idCompetencia) {
-        competenciasDAO.deleteCompetencia(idCompetencia)
+        competenciasDAO.delete(idCompetencia)
     }
 
     void addCurtidaEmpresa(int idEmpresa, int idUsuario) {
@@ -130,16 +131,16 @@ class MenuActions {
     void mostrarCurtidasCandidato() {
         def curtidasCandidato = curtidasDAO.curtidasCandidatosData()
         curtidasCandidato.each { it ->
-            println candidatosDAO.getCandidatoById(it.id_candidato).nome + " <3 " +
-                    vagasDAO.getVagaById(it.id_vaga).titulo
+            println candidatosDAO.get(it.id_candidato).nome + " <3 " +
+                    vagasDAO.get(it.id_vaga).titulo
         }
     }
 
     void mostrarCurtidasEmpresa() {
         def curtidasEmpresa = curtidasDAO.curtidasEmpresasData()
         curtidasEmpresa.each { it ->
-            println empresasDAO.getEmpresaById(it.id_empresa).nome + " <3 " +
-                    candidatosDAO.getCandidatoById(it.id_candidato).nome
+            println empresasDAO.get(it.id_empresa).nome + " <3 " +
+                    candidatosDAO.get(it.id_candidato).nome
         }
     }
 

@@ -19,7 +19,7 @@ class VagasDAOTest extends Specification {
         def id = 1
 
         when: "solicita uma vaga pelo id"
-        vagasDAO.getVagaById(id)
+        vagasDAO.get(id)
 
         then: "executa um SELECT com WHERE"
         1 * sqlMock.eachRow({ String query -> query.contains("SELECT") && query.contains("WHERE")}, [id], _)
@@ -30,9 +30,10 @@ class VagasDAOTest extends Specification {
         int id_empresa = 1
         String tituloVaga = 'Escovador de bits'
         String descricaoVaga = 'Saber assembly, cobol, fortran e Vue.js'
+        Vaga vaga = new Vaga(id_empresa, tituloVaga, descricaoVaga)
 
         when: "adiciona a vaga"
-        vagasDAO.addVaga(id_empresa, tituloVaga, descricaoVaga)
+        vagasDAO.add(vaga)
 
         then: "executa um INSERT INTO no banco de dados"
         1 * sqlMock.execute({ String query -> query.contains("INSERT INTO") && query.contains("vagas")}, _)
@@ -45,7 +46,7 @@ class VagasDAOTest extends Specification {
         int idVaga = 1
 
         when: "atualiza a vaga com o novo valor no campo selecionado"
-        vagasDAO.updateVaga(campo, novo, idVaga)
+        vagasDAO.update(campo, novo, idVaga)
 
         then: "executa um UDPATE no banco de dados"
         1 * sqlMock.execute({ String query -> query.contains("UPDATE") && query.contains("WHERE")}, _)
@@ -56,7 +57,7 @@ class VagasDAOTest extends Specification {
         int idVaga = 1
 
         when: "atualiza a vaga com o novo valor no campo selecionado"
-        vagasDAO.deleteVaga(idVaga)
+        vagasDAO.delete(idVaga)
 
         then: "executa um DELETE no banco de dados"
         1 * sqlMock.execute({ String query -> query.contains("DELETE") && query.contains("WHERE")}, _)

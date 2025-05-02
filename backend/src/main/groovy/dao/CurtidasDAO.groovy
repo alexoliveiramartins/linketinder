@@ -5,11 +5,23 @@ import model.CurtidaCandidato
 import model.CurtidaEmpresa
 import utils.Utils
 
-class CurtidasDAO {
+class CurtidasDAO implements ICurtidaDao{
     final Sql sql
 
     CurtidasDAO(Sql sql) {
         this.sql = sql
+    }
+
+    void deleteCurtidaCandidato(int id_candidato, int id_vaga){
+        Utils.dbErrorHandling("deletar curtida da empresa", {
+            sql.execute("DELETE FROM curtidas_candidato WHERE id_candidato = ? AND id_vaga = ?;" [id_candidato, id_vaga])
+        })
+    }
+
+    void deleteCurtidaEmpresa(int id_empresa, int id_candidato){
+        Utils.dbErrorHandling("deletar curtida da empresa", {
+            sql.execute("DELETE FROM curtidas_empresa WHERE id_empresa = ? AND id_candidato = ?;" [id_empresa, id_candidato])
+        })
     }
 
     void addCurtidaCandidato(int id_candidato, int id_vaga) {
