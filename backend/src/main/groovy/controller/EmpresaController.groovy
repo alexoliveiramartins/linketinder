@@ -1,16 +1,17 @@
 package controller
 
-import dao.CandidatosDAO
+import dao.EmpresasDAO
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import model.Candidato
+import model.Empresa
 import model.SqlInstance
 
-class CandidatoController extends HttpServlet {
-    private static candidatosDao = new CandidatosDAO(SqlInstance.getInstance().sqlConnection)
+class EmpresaController extends HttpServlet {
+    private static empresasDao = new EmpresasDAO(SqlInstance.getInstance().sqlConnection)
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
@@ -18,21 +19,21 @@ class CandidatoController extends HttpServlet {
         resp.setContentType("application/json")
 
         if(path == null || path == "/"){
-            def candidatos = candidatosDao.candidatosData()
-            def json = JsonOutput.toJson(candidatos)
+            def empresas = empresasDao.empresasData()
+            def json = JsonOutput.toJson(empresas)
             resp.writer.write(json)
         }
         else {
-            Candidato candidato
-            candidato = candidatosDao.get(path.substring(1) as Integer)
+            Empresa empresa
+            empresa = empresasDao.get(path.substring(1) as Integer)
 
-            if(candidato){
-                println candidato
-                resp.writer.write(JsonOutput.toJson(candidato))
+            if(empresa){
+                println empresa
+                resp.writer.write(JsonOutput.toJson(empresa))
             }
             else {
                 resp.status = 404
-                resp.writer.write('{"error":"Candidato não encontrado"}')
+                resp.writer.write('{"error":"Empresa não encontrada"}')
             }
         }
     }
@@ -49,13 +50,13 @@ class CandidatoController extends HttpServlet {
             resp.status = HttpServletResponse.SC_BAD_REQUEST
             resp.writer.write('{"error":"Request body is empty"}')
             return
+
         }
         else if(!jsonObject.nome ||
-                !jsonObject.cpf ||
                 !jsonObject.email ||
                 !jsonObject.descricao ||
                 !jsonObject.linkedinLink ||
-                !jsonObject.dataNascimento ||
+                !jsonObject.cnpj ||
                 !jsonObject.cidade ||
                 !jsonObject.estado ||
                 !jsonObject.pais ||
@@ -65,18 +66,17 @@ class CandidatoController extends HttpServlet {
             resp.writer.write('{"error":"campos faltando"}')
             return
         }
-
-        def candidato = new Candidato(jsonObject)
+        def empresa = new Empresa(jsonObject)
 
         try{
-            candidatosDao.add(candidato)
+            empresasDao.add(empresa)
             resp.status = HttpServletResponse.SC_CREATED
-            resp.writer.write('{"message":"candidato criado!"}')
+            resp.writer.write('{"message":"empresa criada!"}')
         }
         catch (Exception e){
             log("Erro" + e)
             resp.status = HttpServletResponse.SC_BAD_REQUEST
-            resp.writer.write('{"message": "erro ao criar candidato: ' + "$e.message" + '"')
+            resp.writer.write('{"message": "erro ao criar empresa: ' + "$e.message" + '"')
         }
     }
 }
