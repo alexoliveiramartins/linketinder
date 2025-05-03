@@ -92,5 +92,4 @@ class CompetenciasDAO implements IDao<Competencia> {
         })
         return competenciaData
     }
-
 }
