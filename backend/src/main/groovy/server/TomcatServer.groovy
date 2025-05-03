@@ -1,5 +1,7 @@
 package server
 
+import controller.CandidatoController
+
 import org.apache.catalina.LifecycleException
 import org.apache.catalina.startup.Tomcat
 
@@ -13,11 +15,8 @@ class TomcatServer implements Runnable {
 
         def ctx = tomcat.addContext("/api", new File(".").absolutePath)
 
-        Tomcat.addServlet(ctx, "HelloServlet", new HelloServlet())
-        ctx.addServletMappingDecoded("/hello", "HelloServlet")
-
-        Tomcat.addServlet(ctx, "TimeServlet", new TimeServlet())
-        ctx.addServletMappingDecoded("/time", "TimeServlet")
+        Tomcat.addServlet(ctx, "CandidatoController", new CandidatoController())
+        ctx.addServletMappingDecoded("/candidatos/*", "CandidatoController")
 
         tomcat.start()
         println "Tomcat server started on http://localhost:8080"
