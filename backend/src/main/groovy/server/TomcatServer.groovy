@@ -3,8 +3,9 @@ package server
 import org.apache.catalina.LifecycleException
 import org.apache.catalina.startup.Tomcat
 
-class TomcatServer {
-    static void main(String[] args) throws LifecycleException {
+class TomcatServer implements Runnable {
+    @Override
+    void run() throws LifecycleException {
         def tomcat = new Tomcat()
         tomcat.setPort(8080)
         tomcat.getConnector()

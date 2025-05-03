@@ -56,7 +56,7 @@ sourceSets {
 }
 
 application {
-    mainClass = 'server.TomcatServer'
+    mainClass = 'Main'
 }
 
 run {
