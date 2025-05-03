@@ -5,6 +5,8 @@ class Vaga {
     String titulo, descricao
     List<Competencia> competencias = new ArrayList<>()
 
+    Vaga() {}
+
     Vaga(id_empresa, titulo, descricao){
         this.id_empresa = id_empresa
         this.titulo = titulo

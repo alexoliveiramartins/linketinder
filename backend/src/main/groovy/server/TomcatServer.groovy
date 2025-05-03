@@ -3,6 +3,7 @@ package server
 import controller.CandidatoController
 import controller.CompetenciasController
 import controller.EmpresaController
+import controller.VagasController
 import org.apache.catalina.LifecycleException
 import org.apache.catalina.startup.Tomcat
 
@@ -24,6 +25,9 @@ class TomcatServer implements Runnable {
 
         Tomcat.addServlet(ctx, "CompetenciasController", new CompetenciasController())
         ctx.addServletMappingDecoded("/competencias/*", "CompetenciasController")
+
+        Tomcat.addServlet(ctx, "VagasController", new VagasController())
+        ctx.addServletMappingDecoded("/vagas/*", "VagasController")
 
         tomcat.start()
         println "Tomcat server started on http://localhost:8080"
