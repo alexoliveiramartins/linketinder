@@ -14,8 +14,16 @@ dependencies {
     // groovy
     implementation 'org.apache.groovy:groovy:4.0.4'
     implementation 'org.apache.groovy:groovy-sql:4.0.4'
+    // https://mvnrepository.com/artifact/org.apache.groovy/groovy-json
+    implementation("org.apache.groovy:groovy-json:4.0.21")
+
     // postgres
     implementation libs.org.postgresql.postgresql
+
+    // tomcat
+    // https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-core
+    implementation("org.apache.tomcat.embed:tomcat-embed-core:10.1.39")
+
     // tests
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation libs.org.spockframework.spock.core

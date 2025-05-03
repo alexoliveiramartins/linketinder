@@ -12,7 +12,7 @@ class VagasDAO implements IDao<Vaga>{
     }
 
     Vaga get(int id) {
-        Vaga vaga
+        Vaga vaga = new Vaga()
         Utils.dbErrorHandling("retornar vaga por id", {
             sql.eachRow(
                     "SELECT * FROM vagas WHERE id = ?",
@@ -24,7 +24,8 @@ class VagasDAO implements IDao<Vaga>{
                 vaga.descricao = vagaResult.descricao
             }
         })
-        return vaga
+        if(vaga.id == 0 || !vaga.titulo) return null
+        else return vaga
     }
 
     void add(Vaga vaga) {

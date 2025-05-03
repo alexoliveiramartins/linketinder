@@ -31,7 +31,8 @@ class EmpresasDAO implements IDao<Empresa>{
                 empresa.senha = empresaResult.senha
             }
         })
-        return empresa
+        if(!empresa.id || empresa.id == 0) return null
+        else return empresa
     }
 
     void add(Empresa empresa) {

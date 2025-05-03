@@ -34,9 +34,9 @@ class Utils {
         try {
             block.call()
         } catch (SQLException e) {
-            println "Erro no banco de dados ao $acao: $e.message"
+            throw new Exception("Erro no banco de dados ao $acao: $e.message")
         } catch (Exception e) {
-            println "Erro inesperado ao $acao: $e.message"
+            throw new Exception("Erro inesperado ao $acao: $e.message")
         }
     }
 }

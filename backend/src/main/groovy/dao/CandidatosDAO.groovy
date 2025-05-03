@@ -65,7 +65,8 @@ class CandidatosDAO implements IDao<Candidato> {
                 candidato.senha = candidatoResult.senha
             }
         })
-        return candidato
+        if(!candidato.id || candidato.id == 0) return null
+        else return candidato
     }
 
     void updateEnderecoCandidato(String campo, String novo, int idCandidato) {
