@@ -74,7 +74,8 @@ class CompetenciasDAO implements IDao<Competencia> {
             competencia.id = row.id
             competencia.nome = row.nome
         }
-        return competencia
+        if(competencia.id == 0 || !competencia.nome) return null
+        else return competencia
     }
 
     List<Competencia> competenciaData() {
