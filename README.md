@@ -1,3 +1,6 @@
+![GitHub repo size](https://img.shields.io/github/repo-size/alexoliveiramartins/linketinder)
+
+
 # Linketinder
 
 Linketinder is a platform that bridges the gap between companies and job applicants. Designed to streamline the recruitment process, Linketinder enables organizations to post job listings and engage directly with prospective candidates, while job seekers can create detailed profiles, upload resumes, and apply for positions with ease.
